@@ -1,6 +1,10 @@
+import randomize as rand
+
 class generate:
-    
-    def operationMatriz(linhaRevisor, colunaArtigo, matriz):
+
+    def operationMatriz(matriz):
+        linhaRevisor = len(matriz)
+        colunaArtigo = len(matriz[0])
         soma = 0
         for i in range(0, linhaRevisor):
             maior = matriz[i][0] #primeira posicao da linha
@@ -20,6 +24,39 @@ class generate:
         listaQtdArtRevisor = matriz[linha]
         return listaQtdArtRevisor
 
-    Matriz = [ [1, 2, 3], [3, 4 , 1], [2, 3, 1] ]
-    operationMatriz(3, 3, Matriz)
+    ''' Por hora retorna uma solução ótima sem nada para chegar nisto - simulado '''
+    def genStaticHeuristic(self):
+        return [1, 0, 0, 1, 0, 0, 1, 1, 1, 1]
+
+    """ append line inteira: [[element11, element21, element31, ..., elementN1], ... """
+    def generate_population(self, dimension_obj):
+        matriz = [] 
+        for iterator in range(dimension_obj['number_of_individuals']):
+            matriz.append(self.create_lines(dimension_obj))
+        return matriz
+
+    """ append elemento para uma linha unica:  [element1, element2, element3, ..., elementN] """
+    def create_lines(self, dimension_obj):
+        lines = []
+
+        for line in range(dimension_obj['collumn']):
+            lines.append(self.create_element(dimension_obj))
+        
+        return lines
+
+    """ cria um elemento randomico """
+    def create_element(self, dimension_obj):
+        return rand.random_bin()
+
+    """ retorna [posição revisor, disponibilidade] """
+    def generate_disp(self, matriz):
+        disp = []
+        for i in range(len(matriz)):
+            disp.append([i, matriz[i][-1]])
+        return disp
+
+
+    """  Matriz = [ [1, 2, 3], [3, 4 , 1], [2, 3, 1] ]
+        operationMatriz(Matriz) """
+
 
