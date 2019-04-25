@@ -26,7 +26,7 @@ class generate:
 
     ''' Por hora retorna uma solução ótima sem nada para chegar nisto - simulado '''
     def genStaticHeuristic(self):
-        return [1, 0, 0, 1, 0, 0, 1, 1, 1, 1]
+        return [1, 0, 0, 1, 0, 0, 1, 1, 1, 1]  # compor a heuristica
 
     """ append line inteira: [[element11, element21, element31, ..., elementN1], ... """
     def generate_population(self, dimension_obj):
@@ -47,6 +47,7 @@ class generate:
     """ cria um elemento randomico """
     def create_element(self, dimension_obj):
         return rand.random_bin()
+
 
     """ retorna [posição revisor, disponibilidade] """
     def generate_disp(self, matriz):

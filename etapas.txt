@@ -3,7 +3,7 @@
 ( x ) simular uma matriz 
 ( x ) supor a heuristica para essa matriz
 (   ) calcular heuristica para essa matriz usando do método projetado
-(   ) ler a matriz de um arquivo
+( +-) ler a matriz de um arquivo
 (   ) criar calculo de fitness
 ( x ) criar classe randomica
 ( x ) realizar seleção
@@ -12,6 +12,9 @@
 ( x ) fazer funcionar o alg genético
 (   ) testar casos diferentes
 ( x ) matplot do fitness médio
-(   ) condição de 10x
+( x ) condição de 10x
 (   ) matplot para as 10x
+(   ) escrever em um arquivo de saida (saida-genetico.txt)
+(   ) converter de volta binario
 
+obs: arquivo de entrada inputpath = ''      

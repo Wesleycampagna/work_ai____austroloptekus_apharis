@@ -2,12 +2,13 @@ import generate as gen
 import randomize as rand
 import matplotlib.pyplot as plt
 
+
 class alocacaoArtigo:
 
     crossoverrate = 0.6
     mutationrate = 0.05
-    maxgen = 900                # a pilha pode até 900 meu pc
-    inputpath = ''              
+    maxgen = 100                # a pilha pode até 900 meu pc [0, 0, 0, 0, 0, 0]
+                                                            # [1, 0, 0, 0, 0, 0]        
     population = 8
     ceil_floor = 1              # garante que o corte seja realizado da posição 1 a len-1
 
@@ -21,7 +22,7 @@ class alocacaoArtigo:
             'number_of_individuals': alocacaoArtigo.population,
             'lines': len(matriz),
             # -1 para tirar a disposição de correção
-            'collumn': (len(matriz[0]) -1) * 2,
+            'collumn': (len(matriz[0]) -1) * 2,   # vai ter que mexer no 2 (tem que ser dinamico na quantidade de revisores)
             # @disp: array das disponibilidades
             'disp': self.generate.generate_disp(matriz)
         }
@@ -99,7 +100,7 @@ class alocacaoArtigo:
         value = ("\n\t\t## FIM POR OBJETIVO", "\n\t\t## FIM POR MAXGEN")[generation >= alocacaoArtigo.maxgen]
         print(value)
 
-    def calculate_fitness(self, population):
+    def calculate_fitness(self, population):  # penalisar falta
 
         fitness = []
         
@@ -229,9 +230,11 @@ matriz_p =  [[0, 0, 3, 4, 4, 1],
             [4, 0, 0, 1, 0, 1],
             [2, 2, 2, 3, 2, 2]]
 
-aloca = alocacaoArtigo(matriz_p)
+for i in range(1):
+    aloca = alocacaoArtigo(matriz_p)
+    aloca.recursiveGenetic(generation)
 
-aloca.recursiveGenetic(generation)
+    print('\n----------------------------------------\n\t\tvez: ', i + 1, '\n----------------------------------------\n\n')
 
 # plt.subplot(1, 2, 1)
 plt.plot(aloca.generations, aloca.mean)
