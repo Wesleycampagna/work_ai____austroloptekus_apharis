@@ -14,6 +14,7 @@ class reader:
   				lista[i] = int(lista[i])
   			matriz.append(lista)
 		print(matriz)
+		arq.close()
 		return matriz
 	matriz2 = createMatrix()
 
