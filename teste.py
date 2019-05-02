@@ -64,7 +64,7 @@ class teste:
 						posRevisor2MaiorAfinidade = troca
 					
 					for j in range(2, len(listaQtdArtigosParaCadaRevisor.keys())): # Qual revisor tem a maior afinidade para o artigo
-						indiceRevisor = listaQtdArtigosParaCadaRevisor.items()[j][0]
+						indiceRevisor = list(listaQtdArtigosParaCadaRevisor.items())[j][0]
 						if(matriz[indiceRevisor][indiceArtigo] > MaiorAfinidade):
 							SegundaMaiorAfinidade = MaiorAfinidade
 							posRevisor2MaiorAfinidade = posRevisorMaiorAfinidade
