@@ -24,7 +24,8 @@ class alocacaoArtigo:
             'number_of_individuals': alocacaoArtigo.population,
             'lines': len(matriz),
             # -1 para tirar a disposição de correção
-            'collumn': (len(matriz[0]) -1) * 2,   # vai ter que mexer no 2 (tem que ser dinamico na quantidade de revisores)
+            'collumn': (len(matriz[0]) -1) * 
+                self.generate.define_log_element(self.generate.get_great_revisor()),   # vai ter que mexer no 2 (tem que ser dinamico na quantidade de revisores)
             # @disp: array das disponibilidades
             'disp': self.generate.generate_disp(matriz)
         }
