@@ -7,7 +7,7 @@ class alocacaoArtigo:
 
     crossoverrate = 0.6
     mutationrate = 0.05
-    maxgen = 100                    
+    maxgen = 10                   
     population = 6
     ceil_floor = 1             # garante que o corte seja realizado da posição 1 a len-1
 
@@ -15,7 +15,10 @@ class alocacaoArtigo:
 
         self.__isEnd = False
         self.generate = gen.generate()
-        self.__objective = self.generate.genStaticHeuristic()
+        self.__objective = self.generate.generate_objective(matriz)
+
+
+        print ('obj: ', self.__objective)
         
         self.__obj = {
             'number_of_individuals': alocacaoArtigo.population,
@@ -55,7 +58,7 @@ class alocacaoArtigo:
         self.generations.append(generation)
        
         # print __objetivo baseado no que se obteve
-        print (self.__objective)
+        print ('obj: ', self.__objective)
 
         # print population
         self.print_matriz(self.population)
@@ -275,7 +278,7 @@ y_best_gen = [best_gen] * repeat
 y_mean_gen = [mean_all_gen] * repeat
 
 plt.plot(np.linspace(0, repeat, repeat), best_generations, marker='o', 
-    linestyle='none', markersize=2.5, color='#777777', label='melhor valor por geração')
+    linestyle='none', markersize=2.5, color='#777777', label='melhor valor por repetição')
 
 plt.plot(np.linspace(0, repeat, repeat), y_best_gen, linewidth=0.5, color='red',
     label='maior geração')
@@ -287,4 +290,7 @@ plt.title('Observação melhor geração x repetição')
 plt.ylabel('generation')
 plt.xlabel('repeat')
 plt.legend()
+plt.savefig('geneticFiles/out_' + str(rand.random_int(0, 300)) + '.png')
+# plt.savefig('geneticFiles/out_.png')
 plt.show()
+plt.close()

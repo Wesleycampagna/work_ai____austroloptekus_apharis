@@ -1,45 +1,16 @@
 import randomize as rand
+import ObjectiveConstructor as obj_construct
+import math 
 
 class generate:
 
-    def operationMatriz(matriz):
-        linhaRevisor = len(matriz)
-        colunaArtigo = len(matriz[0])
-        soma = 0
-        for i in range(0, linhaRevisor):
-            maior = matriz[i][0] #primeira posicao da linha
-            menorDosMaiores = maior
-            for j in range(1, colunaArtigo):
-                print(matriz[i][j])
-                if maior < matriz[i][j]:
-                    maior = matriz[i][j]
-            if menorDosMaiores > maior:
-                menorDosMaiores = maior
-            soma = soma + maior
-        soma = soma - (5 - menorDosMaiores)
-        print ('a soma eh:' , soma, '\n')
-        return soma
+    def generate_objective(self, matriz):
+        self.list_revisor_article = obj_construct.Objective().generateObjective(matriz)
+        return self.to_binary(self.list_revisor_article)
 
 
-    def retornaListaQtdArtRevisor(linha, matriz):
-        listaQtdArtRevisor = matriz[linha]
-        return listaQtdArtRevisor
-
-
-    ''' 
-    ==============================================================================
-    Por hora retorna uma solução ótima sem nada para chegar nisto - simulado - ini
-    ==============================================================================
-    '''
-    def genStaticHeuristic(self):
-        return [1, 0, 0, 1, 0, 0, 1, 1, 1, 1]  # compor a heuristica
-
-    ''' 
-    ==============================================================================
-    Por hora retorna uma solução ótima sem nada para chegar nisto - simulado - fim
-    ==============================================================================
-    '''
-
+    def get_great_revisor(self):
+        return max(self.list_revisor_article)
 
     # append line inteira: [[element11, element21, element31, ..., elementN1], ...
     def generate_population(self, dimension_obj):
@@ -72,7 +43,30 @@ class generate:
         return disp
 
 
-    """  Matriz = [ [1, 2, 3], [3, 4 , 1], [2, 3, 1] ]
-        operationMatriz(Matriz) """
+    def define_log_element(self, great_element_value):
+        return math.ceil(math.log(float(great_element_value), 2))
 
 
+    # transfere para binario um array de entrada
+    def to_binary(self, array):
+        
+        positions = self.define_log_element(max(array))
+
+        binary_format_array = []
+        
+        for element in array:
+            value = self.__get_bin(element, positions)
+            
+            for el in value:
+                binary_format_array.append(int(el))                
+        
+        return binary_format_array
+ 
+
+    def __get_bin(self, number, positions):
+        set_str = '{0:0' + str(positions) + 'b}'
+        return set_str.format(number)
+
+# obj = generate()
+
+# obj.to_binary([2, 1, 3, 3, 0])

@@ -1,5 +1,5 @@
-class teste:
-	def generateHeuristic(matriz):
+class Objective:
+	def generateObjective(self, matriz):
 		linhasRevisor = len(matriz)
 		colunasArtigo = len(matriz[0])
 		
@@ -118,7 +118,7 @@ class teste:
 			print("HOUVE UM PROBLEMA COM A SAIDA")
 			return([])
 
-	teste = [[0,0,3,4,4,1], [3,3,0,0,1,2], [4,0,0,1,0,1], [2,2,2,3,2,2]]
+testee = [[0,0,3,4,4,1], [3,3,0,0,1,2], [4,0,0,1,0,1], [2,2,2,3,2,2]]
 
-	print(generateHeuristic(teste))
+print(Objective.generateObjective(4, testee))
 
