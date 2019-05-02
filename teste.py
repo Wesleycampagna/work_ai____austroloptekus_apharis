@@ -14,7 +14,7 @@ class teste:
 			if(matriz[i][colunaArtigo - 1] > 0): # Se o revisor corrige mais do que 0 entao eu coloco na lista
 				listaQtdArtigosParaCadaRevisor.update({i : matriz[i][colunaArtigo - 1]})
 
-		while(listaArtigosParaCorrigir != [] and listaQtdArtigosParaCadaRevisor != []): # Enquanto a lista nao for vazia
+		while(listaArtigosParaCorrigir != [] and listaQtdArtigosParaCadaRevisor != {}): # Enquanto a lista nao for vazia
 			artigoASerCorrigido = listaArtigosParaCorrigir[0]
 
 			posRevisorMaiorAfinidade = -1
