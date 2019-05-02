@@ -7,10 +7,10 @@ class alocacaoArtigo:
 
     crossoverrate = 0.6
     mutationrate = 0.05
-    maxgen = 100                # a pilha pode até 900 meu pc [0, 0, 0, 0, 0, 0]
-                                                            # [1, 0, 0, 0, 0, 0]        
-    population = 8
-    ceil_floor = 1              # garante que o corte seja realizado da posição 1 a len-1
+    maxgen = 1000                    
+    population = 6
+    ceil_floor = 1             # garante que o corte seja realizado da posição 1 a len-1
+
 
     def __init__(self, matriz):
 
@@ -34,6 +34,7 @@ class alocacaoArtigo:
 
         print('disp: ', self.__obj['disp'])
         pass
+
 
     def print_matriz(self, matriz_):
         for i in matriz_:
@@ -61,7 +62,7 @@ class alocacaoArtigo:
         print('fitness: ', fitness)
 
         print('\n\t\t ## MÉDIA FITNESS ##\n')
-        mean = self.get_meania(fitness)
+        mean = self.get_mean(fitness)
         print('média fitness: ', mean)
         self.mean.append(mean)
 
@@ -100,6 +101,7 @@ class alocacaoArtigo:
         value = ("\n\t\t## FIM POR OBJETIVO", "\n\t\t## FIM POR MAXGEN")[generation >= alocacaoArtigo.maxgen]
         print(value)
 
+
     def calculate_fitness(self, population):  # penalisar falta
 
         fitness = []
@@ -120,9 +122,11 @@ class alocacaoArtigo:
             
         return fitness
 
+
     def evaluate_fitness(self, equal):
         if self.__obj['collumn'] == equal:
             self.__isEnd = True
+
 
     def get_roulette(self, fitness_array):
         pieces_of_roulette = []
@@ -148,7 +152,8 @@ class alocacaoArtigo:
             roulette.append(rand.random_float(360))
         
         return roulette
-            
+
+
     def selected_to_crossover_and_set(self, raffle, roulette, matriz):
         select = []
         positions = []
@@ -179,7 +184,7 @@ class alocacaoArtigo:
             coeficiente = rand.random_porcentual()
 
             if (coeficiente > alocacaoArtigo.crossoverrate):
-                print('\t\tenter coeficiente')
+
                 first_array = self.population[line]
                 second_array = self.population[line+1]
 
@@ -192,16 +197,16 @@ class alocacaoArtigo:
                 self.population[line+1] = self.cross(second_array, first_array, cp)
         pass
 
+
     def cross(self, first_piece, second_piece, cp):
         genetic_process = []
         for i in range(self.__obj['collumn']):
             if i < cp: genetic_process.append(first_piece[i])
             else: genetic_process.append(second_piece[i])
            
-        #print (genetic_process)
         return genetic_process
-        #pass
-    
+
+
     def mutation(self, matriz):
 
         for line in range(len(matriz)):
@@ -213,18 +218,21 @@ class alocacaoArtigo:
 
         return matriz
 
-    def get_meania(self, array):
-        meania = 0
+
+    def get_mean(self, array):
+        mean = 0
 
         for element in array:
-            meania += element
+            mean += element
 
-        return meania/len(array)
+        return mean/len(array)
 
-""" inicia aqui por hora """
+# ------------------------------------------------------------------------------------------
+#                                      inicia aqui por hora
+# ------------------------------------------------------------------------------------------
 generation = 0
 
-""" obs: matriz_p deve ser lida de um arquivo, suposta aqui """
+# obs: matriz_p deve ser lida de um arquivo, suposta aqui
 matriz_p =  [[0, 0, 3, 4, 4, 1],
             [3, 3, 0, 0, 1, 2],
             [4, 0, 0, 1, 0, 1],
@@ -237,7 +245,7 @@ for i in range(1):
     print('\n----------------------------------------\n\t\tvez: ', i + 1, '\n----------------------------------------\n\n')
 
 # plt.subplot(1, 2, 1)
-plt.plot(aloca.generations, aloca.mean)
-plt.ylabel('meania')
-plt.xlabel('geração')
+plt.plot(aloca.generations, aloca.mean, linewidth=0.4, color='#777777')
+plt.ylabel('mean')
+plt.xlabel('generation')
 plt.show()

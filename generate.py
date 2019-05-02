@@ -20,22 +20,36 @@ class generate:
         print ('a soma eh:' , soma, '\n')
         return soma
 
+
     def retornaListaQtdArtRevisor(linha, matriz):
         listaQtdArtRevisor = matriz[linha]
         return listaQtdArtRevisor
 
-    ''' Por hora retorna uma solução ótima sem nada para chegar nisto - simulado '''
+
+    ''' 
+    ==============================================================================
+    Por hora retorna uma solução ótima sem nada para chegar nisto - simulado - ini
+    ==============================================================================
+    '''
     def genStaticHeuristic(self):
         return [1, 0, 0, 1, 0, 0, 1, 1, 1, 1]  # compor a heuristica
 
-    """ append line inteira: [[element11, element21, element31, ..., elementN1], ... """
+    ''' 
+    ==============================================================================
+    Por hora retorna uma solução ótima sem nada para chegar nisto - simulado - fim
+    ==============================================================================
+    '''
+
+
+    # append line inteira: [[element11, element21, element31, ..., elementN1], ...
     def generate_population(self, dimension_obj):
         matriz = [] 
         for iterator in range(dimension_obj['number_of_individuals']):
             matriz.append(self.create_lines(dimension_obj))
         return matriz
 
-    """ append elemento para uma linha unica:  [element1, element2, element3, ..., elementN] """
+
+    # append elemento para uma linha unica:  [element1, element2, element3, ..., elementN]
     def create_lines(self, dimension_obj):
         lines = []
 
@@ -44,12 +58,13 @@ class generate:
         
         return lines
 
-    """ cria um elemento randomico """
+
+    # cria um elemento randomico
     def create_element(self, dimension_obj):
         return rand.random_bin()
 
 
-    """ retorna [posição revisor, disponibilidade] """
+    # retorna [posição revisor, disponibilidade]
     def generate_disp(self, matriz):
         disp = []
         for i in range(len(matriz)):
