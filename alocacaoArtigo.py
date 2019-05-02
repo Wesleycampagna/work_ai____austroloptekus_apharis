@@ -1,16 +1,15 @@
 import generate as gen
 import randomize as rand
 import matplotlib.pyplot as plt
-
+import numpy as np
 
 class alocacaoArtigo:
 
     crossoverrate = 0.6
     mutationrate = 0.05
-    maxgen = 1000                    
+    maxgen = 100                    
     population = 6
     ceil_floor = 1             # garante que o corte seja realizado da posição 1 a len-1
-
 
     def __init__(self, matriz):
 
@@ -32,6 +31,11 @@ class alocacaoArtigo:
         self.mean = []
         self.generations = []
 
+        self.best_generation = {
+            'index': 0,
+            'value': 0
+        }
+
         print('disp: ', self.__obj['disp'])
         pass
 
@@ -41,7 +45,7 @@ class alocacaoArtigo:
             print(i)
 
 
-    def recursiveGenetic(self, generation):
+    def recursive_genetic(self, generation):
         
         # print da geração atual
         print('\n+ ======================================+')
@@ -62,7 +66,7 @@ class alocacaoArtigo:
         print('fitness: ', fitness)
 
         print('\n\t\t ## MÉDIA FITNESS ##\n')
-        mean = self.get_mean(fitness)
+        mean = self.get_mean(fitness, generation)
         print('média fitness: ', mean)
         self.mean.append(mean)
 
@@ -96,9 +100,15 @@ class alocacaoArtigo:
             self.print_matriz(self.population)
 
             generation += 1
-            return self.recursiveGenetic(generation)
+            return self.recursive_genetic(generation)
         
+        if generation < alocacaoArtigo.maxgen:
+            print ('\n\t enter')
+            self.best_generation['index'] = generation
+            self.best_generation['value'] = mean
+
         value = ("\n\t\t## FIM POR OBJETIVO", "\n\t\t## FIM POR MAXGEN")[generation >= alocacaoArtigo.maxgen]
+        
         print(value)
 
 
@@ -107,24 +117,24 @@ class alocacaoArtigo:
         fitness = []
         
         for line in population:
-            equal = 0
+            quant_right_bits = 0
             for iterator in range(len(line)):
                 if line[iterator] == self.__objective[iterator]:
-                    equal += 1
+                    quant_right_bits += 1
             
-            self.evaluate_fitness(equal)
+            self.evaluate_fitness(quant_right_bits)
 
             # não ter o risco de um fitness onde todos os bits estejam errado
-            if equal == 0:
-                equal = 1
+            if quant_right_bits == 0:
+                quant_right_bits = 1
             
-            fitness.append(equal)
+            fitness.append(quant_right_bits)
             
         return fitness
 
 
-    def evaluate_fitness(self, equal):
-        if self.__obj['collumn'] == equal:
+    def evaluate_fitness(self, quant_right_bits):
+        if self.__obj['collumn'] == quant_right_bits:
             self.__isEnd = True
 
 
@@ -181,9 +191,9 @@ class alocacaoArtigo:
 
         for line in range(0, len(self.population), 2):
 
-            coeficiente = rand.random_porcentual()
+            coefficient = rand.random_porcentual()
 
-            if (coeficiente > alocacaoArtigo.crossoverrate):
+            if (coefficient > alocacaoArtigo.crossoverrate):
 
                 first_array = self.population[line]
                 second_array = self.population[line+1]
@@ -219,18 +229,27 @@ class alocacaoArtigo:
         return matriz
 
 
-    def get_mean(self, array):
-        mean = 0
+    def get_mean(self, array, gen):
+        values = 0
 
         for element in array:
-            mean += element
+            values += element
 
-        return mean/len(array)
+        mean = values/len(array)
+
+        if mean > self.best_generation['value']:
+            self.best_generation['index'] = gen
+            self.best_generation['value'] = mean
+
+        return mean
 
 # ------------------------------------------------------------------------------------------
 #                                      inicia aqui por hora
 # ------------------------------------------------------------------------------------------
 generation = 0
+repeat = 10
+best_generations = []
+best_gen = 0
 
 # obs: matriz_p deve ser lida de um arquivo, suposta aqui
 matriz_p =  [[0, 0, 3, 4, 4, 1],
@@ -238,14 +257,34 @@ matriz_p =  [[0, 0, 3, 4, 4, 1],
             [4, 0, 0, 1, 0, 1],
             [2, 2, 2, 3, 2, 2]]
 
-for i in range(1):
+for i in range(repeat):
     aloca = alocacaoArtigo(matriz_p)
-    aloca.recursiveGenetic(generation)
+    aloca.recursive_genetic(generation)
 
+    best_generations.append(aloca.best_generation['index'])
+    print ('best generation: ', aloca.best_generation['index'], ' - ', aloca.best_generation)
+
+    if aloca.best_generation['index'] > best_gen:
+        best_gen = aloca.best_generation['index']
     print('\n----------------------------------------\n\t\tvez: ', i + 1, '\n----------------------------------------\n\n')
 
-# plt.subplot(1, 2, 1)
-plt.plot(aloca.generations, aloca.mean, linewidth=0.4, color='#777777')
-plt.ylabel('mean')
-plt.xlabel('generation')
+mean_all_gen = np.mean(best_generations)
+
+print ('mean: ', mean_all_gen)
+y_best_gen = [best_gen] * repeat
+y_mean_gen = [mean_all_gen] * repeat
+
+plt.plot(np.linspace(0, repeat, repeat), best_generations, marker='o', 
+    linestyle='none', markersize=2.5, color='#777777', label='melhor valor por geração')
+
+plt.plot(np.linspace(0, repeat, repeat), y_best_gen, linewidth=0.5, color='red',
+    label='maior geração')
+
+plt.plot(np.linspace(0, repeat, repeat), y_mean_gen, 
+    linewidth=0.5, color='blue', label='media de todas repetições')
+
+plt.title('Observação melhor geração x repetição')
+plt.ylabel('generation')
+plt.xlabel('repeat')
+plt.legend()
 plt.show()
