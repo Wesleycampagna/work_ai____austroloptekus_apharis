@@ -14,7 +14,7 @@
 ( +-) matplot do fitness médio
 ( x ) condição de 10x
 ( x ) matplot para as 10x
-( x ) escrever em um arquivo de saida (saida-genetico.txt)
+( +-) escrever em um arquivo de saida (saida-genetico.txt) >>>> Falta so acoplar ao projeto
 (   ) converter de volta binario
 ( x ) fitness.png
 ( x ) gráfico com 2 linhas, uma da melhor solução, outra da média (10 repetições)
