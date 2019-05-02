@@ -110,7 +110,12 @@ class teste:
 						del(listaQtdArtigosParaCadaRevisor[RevisorACorrigir]) # entao remove da lista
 					listaArtigosParaCorrigir.remove(artigoASerCorrigido)
 
-		return (list(map(lambda x: x + 1, listaResultado)))
+
+		if(None not in listaResultado):
+			return (list(map(lambda x: x + 1, listaResultado)))
+		else:
+			print("HOUVE UM PROBLEMA COM A SAIDA")
+			return([])
 
 	teste = [[0,0,3,4,4,1], [3,3,0,0,1,2], [4,0,0,1,0,1], [2,2,2,3,2,2]]
 
