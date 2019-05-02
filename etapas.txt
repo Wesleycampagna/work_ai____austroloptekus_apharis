@@ -2,7 +2,7 @@
 ( x ) projetar heuristica
 ( x ) simular uma matriz 
 ( x ) supor a heuristica para essa matriz
-(   ) calcular heuristica para essa matriz usando do método projetado
+( x ) calcular heuristica para essa matriz usando do método projetado
 ( x ) ler a matriz de um arquivo
 ( +-) criar calculo de fitness
 ( x ) criar classe randomica
@@ -11,13 +11,13 @@
 ( x ) realizar mutação 
 ( x ) fazer funcionar o alg genético
 (   ) testar 3 casos diferentes
-( x ) matplot do fitness médio
+( +-) matplot do fitness médio
 ( x ) condição de 10x
-(   ) matplot para as 10x
+( x ) matplot para as 10x
 ( x ) escrever em um arquivo de saida (saida-genetico.txt)
 (   ) converter de volta binario
-(   ) fitness.png
-(   ) gráfico com 2 linhas, uma da melhor solução, outra da média (10 repetições)
+( x ) fitness.png
+( x ) gráfico com 2 linhas, uma da melhor solução, outra da média (10 repetições)
 (   ) Também deve ser mensurado o tempo de execuçao e o numero de iteracoes
 levado ate a convergencia
 

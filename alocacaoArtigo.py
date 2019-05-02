@@ -7,7 +7,7 @@ class alocacaoArtigo:
 
     crossoverrate = 0.6
     mutationrate = 0.05
-    maxgen = 10                   
+    maxgen = 100                   
     population = 6
     ceil_floor = 1             # garante que o corte seja realizado da posição 1 a len-1
 
@@ -290,7 +290,7 @@ plt.title('Observação melhor geração x repetição')
 plt.ylabel('generation')
 plt.xlabel('repeat')
 plt.legend()
-plt.savefig('geneticFiles/out_' + str(rand.random_int(0, 300)) + '.png')
-# plt.savefig('geneticFiles/out_.png')
+#plt.savefig('geneticFiles/out_' + str(rand.random_int(0, 300)) + '.png')
+plt.savefig('geneticFiles/fitness.png')
 plt.show()
 plt.close()
