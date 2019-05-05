@@ -15,7 +15,7 @@
 ( x ) condição de 10x
 ( x ) matplot para as 10x
 ( +-) escrever em um arquivo de saida (saida-genetico.txt) >>>> Falta so acoplar ao projeto
-(   ) converter de volta binario
+( x ) converter de volta binario
 ( x ) fitness.png
 ( x ) gráfico com 2 linhas, uma da melhor solução, outra da média (10 repetições)
 (   ) Também deve ser mensurado o tempo de execuçao e o numero de iteracoes
