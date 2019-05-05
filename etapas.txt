@@ -22,3 +22,10 @@
 levado ate a convergencia
 
 obs: arquivo de entrada inputpath = ''      
+
+
+1- 3 combinações da parametros diferentes (entrada ou taxa de mutacao, crossover... ?)
+
+2- grafico plotado certo?
+
+3- mensurar tempo de execucao
