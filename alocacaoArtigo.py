@@ -261,6 +261,19 @@ reader = read.reader()
 matriz_p = reader.createMatrix() 
 
 
+def plot_generation(repeat, generations, means):
+    plt.plot(generations, means, linewidth=0.4, color='#777777')
+    plt.ylabel('mean')
+    plt.xlabel('generation')
+
+    plt.title('Observação fitness médio x generation')
+    
+    plt.legend()
+    plt.savefig('geneticFiles/gen-' + str(repeat) + '.png')
+    plt.close()
+    pass
+
+
 for i in range(repeat):
     aloca = alocacaoArtigo(matriz_p)
     aloca.recursive_genetic(generation)
@@ -270,6 +283,8 @@ for i in range(repeat):
 
     if aloca.best_generation['index'] > best_gen:
         best_gen = aloca.best_generation['index']
+
+    plot_generation(i, aloca.generations, aloca.mean)
     print('\n----------------------------------------\n\t\tvez: ', i + 1, '\n----------------------------------------\n\n')
 
 mean_all_gen = np.mean(best_generations)
