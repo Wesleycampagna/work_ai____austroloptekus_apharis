@@ -269,7 +269,7 @@ def plot_generation(repeat, generations, means):
     plt.title('Observação fitness médio x generation')
     
     plt.legend()
-    plt.savefig('geneticFiles/gen-' + str(repeat) + '.png')
+    plt.savefig('geneticFiles/repeat-' + str(repeat + 1) + '.png')
     plt.close()
     pass
 
