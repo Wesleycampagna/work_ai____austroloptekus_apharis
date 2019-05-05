@@ -29,3 +29,5 @@ obs: arquivo de entrada inputpath = ''
 2- grafico plotado certo?
 
 3- mensurar tempo de execucao
+
+4- quem da populacao vai ser jogado na saida genetico
