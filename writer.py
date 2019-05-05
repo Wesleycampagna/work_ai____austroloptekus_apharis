@@ -1,4 +1,5 @@
 class writer:
+	
 	def convertToVetorDec(vetorBin, tetoLog):
 		resultado = 0
 		posicao = 0
@@ -11,6 +12,8 @@ class writer:
 			resultado = 0
 		print(vetorDec)
 		return vetorDec
+
+
 	def writeArchive(listaInt):
 		
 		arq = open('saida-genetico.txt', 'w')
@@ -21,6 +24,7 @@ class writer:
 		arq.writelines(result)
 		arq.close()
 	
+
 	texto = []
 	texto.append(1)
 	texto.append(2)

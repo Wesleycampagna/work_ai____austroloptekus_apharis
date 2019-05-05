@@ -254,7 +254,7 @@ class alocacaoArtigo:
 generation = 0
 repeat = 10
 best_generations = []
-best_gen = 0
+best_gen = 100
 
 # get matriz from reader.py > inputpath
 reader = read.reader()
@@ -281,7 +281,7 @@ for i in range(repeat):
     best_generations.append(aloca.best_generation['index'])
     print ('best generation: ', aloca.best_generation['index'], ' - ', aloca.best_generation)
 
-    if aloca.best_generation['index'] > best_gen:
+    if aloca.best_generation['index'] < best_gen:
         best_gen = aloca.best_generation['index']
 
     plot_generation(i, aloca.generations, aloca.mean)
@@ -297,7 +297,7 @@ plt.plot(np.linspace(0, repeat, repeat), best_generations, marker='o',
     linestyle='none', markersize=2.5, color='#777777', label='melhor valor por repetição')
 
 plt.plot(np.linspace(0, repeat, repeat), y_best_gen, linewidth=0.5, color='red',
-    label='maior geração')
+    label='melhor geração em todas repetições')
 
 plt.plot(np.linspace(0, repeat, repeat), y_mean_gen, 
     linewidth=0.5, color='blue', label='media de todas repetições')
