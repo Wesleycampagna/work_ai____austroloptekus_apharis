@@ -1,5 +1,6 @@
 import generate as gen
 import randomize as rand
+import reader as read
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -255,11 +256,10 @@ repeat = 10
 best_generations = []
 best_gen = 0
 
-# obs: matriz_p deve ser lida de um arquivo, suposta aqui
-matriz_p =  [[0, 0, 3, 4, 4, 1],
-            [3, 3, 0, 0, 1, 2],
-            [4, 0, 0, 1, 0, 1],
-            [2, 2, 2, 3, 2, 2]]
+# get matriz from reader.py > inputpath
+reader = read.reader()
+matriz_p = reader.createMatrix() 
+
 
 for i in range(repeat):
     aloca = alocacaoArtigo(matriz_p)

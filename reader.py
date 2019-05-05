@@ -1,7 +1,8 @@
 import re as regex
 
 class reader:
-	def createMatrix():
+
+	def createMatrix(self):
 		
 		arq = open('inputpath', 'r')
 		texto = arq.read()
@@ -9,13 +10,18 @@ class reader:
 		matriz = []
 		
 		for texto in textoarray:
+
   			lista = regex.findall('(\d+)', texto)
   			for i in range(len(lista)):
-  				lista[i] = int(lista[i])
-  			matriz.append(lista)
-		print(matriz)
+				  lista[i] = int(lista[i])
+  			if len(lista) > 0:
+				  matriz.append(lista)
+
 		arq.close()
 		return matriz
+""" 
+
 	matriz2 = createMatrix()
 
-	print (matriz2)
+	for element in matriz2:
+		print (element) """

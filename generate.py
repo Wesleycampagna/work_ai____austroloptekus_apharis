@@ -67,6 +67,3 @@ class generate:
         set_str = '{0:0' + str(positions) + 'b}'
         return set_str.format(number)
 
-# obj = generate()
-
-# obj.to_binary([2, 1, 3, 3, 0])
