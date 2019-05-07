@@ -1,17 +1,18 @@
-( x ) determinar heuristica
-( x ) projetar heuristica
+(   ) determinar heuristica
+(   ) projetar heuristica
 ( x ) simular uma matriz 
-( x ) supor a heuristica para essa matriz
-( x ) calcular heuristica para essa matriz usando do método projetado
+(   ) supor a heuristica para essa matriz
+(  )  calcular heuristica para essa matriz usando do método projetado
 ( x ) ler a matriz de um arquivo
-( +-) criar calculo de fitness
+(   ) criar calculo de fitness
 ( x ) criar classe randomica
 ( x ) realizar seleção
 ( x ) realizar crossover
 ( x ) realizar mutação 
 ( x ) fazer funcionar o alg genético
-(   ) testar 3 casos diferentes
-( +-) matplot do fitness médio
+( # ) testar 3 casos diferentes
+( x ) matplot do fitness médio
+(   ) matplot do maior fitness
 ( x ) condição de 10x
 ( x ) matplot para as 10x
 ( +-) escrever em um arquivo de saida (saida-genetico.txt) >>>> Falta so acoplar ao projeto
@@ -20,6 +21,10 @@
 ( x ) gráfico com 2 linhas, uma da melhor solução, outra da média (10 repetições)
 (   ) Também deve ser mensurado o tempo de execuçao e o numero de iteracoes
 levado ate a convergencia
+
+# - anulado
+x - feito
++- - +-
 
 obs: arquivo de entrada inputpath = ''      
 
@@ -37,3 +42,19 @@ obs: arquivo de entrada inputpath = ''
 6- aplicar algoritmo genetico direto? - Fitness deve ser a única representação de melhor estado? Desse modo a condição de parada será maxgen com as 10 iterações?
 
 7- várias entradas
+
+----------------------------------------------------------------------------------------------------------------------
+
+1- matplot do maior fitness
+
+2- se aproximar do maximo possivel
+
+3- condição de parada -> agrupar 10 gerações e fazer as próximas 10 gerações e comaparar se convergiu muito, se sim para, senão continua (em 5 artigos com 4 revisores -> 1/x da multiplicação deles)
+
+4- representação matematica -> somatoria dos melhores revisores para cada artigo
+
+5- mudar crossover
+
+6- explicar mutação
+
+7- 
