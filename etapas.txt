@@ -33,3 +33,5 @@ obs: arquivo de entrada inputpath = ''
 4- quem da populacao vai ser jogado na saida genetico
 
 5- prova matematica
+
+6- aplicar algoritmo genetico direto? - Fitness deve ser a única representação de melhor estado? Desse modo a condição de parada será maxgen com as 10 iterações?
