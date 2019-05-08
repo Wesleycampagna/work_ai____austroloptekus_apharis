@@ -21,6 +21,7 @@
 ( x ) gráfico com 2 linhas, uma da melhor solução, outra da média (10 repetições)
 (   ) Também deve ser mensurado o tempo de execuçao e o numero de iteracoes
 levado ate a convergencia
+(   ) Fazer entrada por parametro para 3 ordens diferentes de parametros 
 
 # - anulado
 x - feito
@@ -57,4 +58,4 @@ obs: arquivo de entrada inputpath = ''
 
 6- explicar mutação
 
-7- 
+7- argv e args 

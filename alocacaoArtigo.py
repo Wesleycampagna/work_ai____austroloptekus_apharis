@@ -7,8 +7,8 @@ import numpy as np
 class alocacaoArtigo:
 
     crossoverrate = 0.6
-    mutationrate = 0.05
-    maxgen = 100                   
+    mutationrate = 0.01
+    maxgen = 1000                   
     population = 6
     ceil_floor = 1             # garante que o corte seja realizado da posição 1 a len-1
 
@@ -35,6 +35,7 @@ class alocacaoArtigo:
         self.population = self.generate.generate_population(self.__obj)
         self.mean = []
         self.generations = []
+        self.best_individual = []
 
         self.best_generation = {
             'index': 0,
@@ -120,6 +121,7 @@ class alocacaoArtigo:
     def calculate_fitness(self, population):  # penalisar falta
 
         fitness = []
+        best_individual = 0
         
         for line in population:
             quant_right_bits = 0
@@ -133,7 +135,13 @@ class alocacaoArtigo:
             if quant_right_bits == 0:
                 quant_right_bits = 1
             
+            # verifica se ainda é o melhor individuo da população 
+            if quant_right_bits > best_individual:
+                best_individual = quant_right_bits
+
             fitness.append(quant_right_bits)
+        
+        self.best_individual.append(best_individual)
             
         return fitness
 
@@ -261,14 +269,16 @@ reader = read.reader()
 matriz_p = reader.createMatrix() 
 
 
-def plot_generation(repeat, generations, means):
+def plot_generation(repeat, generations, means, best_individual):
     plt.plot(generations, means, linewidth=0.4, color='#777777')
+    plt.plot(generations, best_individual, linewidth=0.4, color='lightgreen')
     plt.ylabel('mean')
     plt.xlabel('generation')
 
-    plt.title('Observação fitness médio x generation')
+    plt.title('Observação fitness médio e fitness melhor individuo x generation')
     
     plt.legend()
+    plt.title('analise na repetição: ' + str(repeat + 1))
     plt.savefig('geneticFiles/repeat-' + str(repeat + 1) + '.png')
     plt.close()
     pass
@@ -284,7 +294,7 @@ for i in range(repeat):
     if aloca.best_generation['index'] < best_gen:
         best_gen = aloca.best_generation['index']
 
-    plot_generation(i, aloca.generations, aloca.mean)
+    plot_generation(i, aloca.generations, aloca.mean, aloca.best_individual)
     print('\n----------------------------------------\n\t\tvez: ', i + 1, '\n----------------------------------------\n\n')
 
 mean_all_gen = np.mean(best_generations)
