@@ -2,9 +2,9 @@ import re as regex
 
 class reader:
 
-	def createMatrix(self):
+	def createMatrix(self, file_path):
 		
-		arq = open('inputpath', 'r')
+		arq = open(file_path, 'r')
 		texto = arq.read()
 		textoarray = texto.split("\n")
 		matriz = []
