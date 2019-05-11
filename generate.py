@@ -1,5 +1,6 @@
 import randomize as rand
 import ObjectiveConstructor as obj_construct
+import HeuristicConstructor as heu_construct
 import math 
 
 class generate:
@@ -11,6 +12,8 @@ class generate:
 
     def generate_heuristic(self, matriz):
         # ** modify 
+        self.list_revisor_article = heu_construct.Heuristic().generateObjective(matriz)
+        return self.to_binary(self.list_revisor_article)
         pass
 
 

@@ -3,6 +3,7 @@ import reader as read
 import genetic as gn
 import matplotlib.pyplot as plt
 import numpy as np
+import time
 
 # ------------------------------------------------------------------------------------------
 #    Alunos:    William Felipe Tsubota      - 201
@@ -23,8 +24,12 @@ class alocacaoArtigo:
 
         # get matriz from reader.py > inputpath
         reader = read.reader()
-        self.matriz_p = reader.createMatrix(inputpath) 
+        self.matriz_p = reader.createMatrix(inputpath)
+        
+        inicio = time.time()
         self.run(crossoverrate, mutationrate, maxgen)
+        fim = time.time()
+        print((fim - inicio), 'segundos')
         
 
     def run(self, crossoverrate, mutationrate, maxgen):
