@@ -194,7 +194,6 @@ class Genetic:
     def evaluate_fitness(self, individuals, sum_individual):
         disponibilidade = []
         disponibilidade.extend(self.__obj['disp'])
-        
         punicao = Genetic.penalty # definir punicao
         
         for i in range(len(individuals)):
