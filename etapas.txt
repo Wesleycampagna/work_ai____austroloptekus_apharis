@@ -3,6 +3,8 @@
 ( x ) simular uma matriz 
 ( x ) ler a matriz de um arquivo
 (   ) criar calculo de fitness >>> punir revisores que ultrapassa o limite, calcular convergencia para saber se para
++ a gente tem um vetor do maior fitness (soma das aptidoes)
+- a gente ainda não controla inconsistências na disponibildade (punir revisores que ultrapassa o limite)
 ( x ) criar classe randomica
 ( x ) realizar seleção
 ( x ) realizar crossover

@@ -11,8 +11,8 @@ class Genetic:
 
         self.__isEnd = False
         self.generate = gen.generate()
-        #self.__heuristic = self.generate.generate_heuristic(matriz)    # *** trocar pelo de baixo ***
-        self.__heuristic = self.generate.generate_objective(matriz)    # *** modify  ***
+        self.__heuristic = self.generate.generate_heuristic(matriz)    # *** trocar pelo de baixo ***
+        #self.__heuristic = self.generate.generate_objective(matriz)    # *** modify  ***
         
         self.crossoverrate = crossoverrate
         self.mutationrate = mutationrate
@@ -123,27 +123,16 @@ class Genetic:
     def calculate_fitness(self, population):  # *** modify  init ***
 
         fitness = []
-        best_individual = 0
-        
+        tetolog = self.__obj['tetolog']
         for line in population:
-            quant_right_bits = 0
-            for iterator in range(len(line)):
-                if line[iterator] == self.__heuristic[iterator]:
-                    quant_right_bits += 1
-            
-            self.evaluate_fitness(quant_right_bits)
+            soma = 0
+            for i in range(0, len(line), tetolog):
+                atual = ''
+                for j in range(i, i + tetolog):
+                    atual += str(population[line][j])
+                soma = int(atual, 2)
+            fitness.append(soma)
 
-            # não ter o risco de um fitness onde todos os bits estejam errado
-            if quant_right_bits == 0:
-                quant_right_bits = 1
-            
-            # verifica se ainda é o melhor individuo da população 
-            if quant_right_bits > best_individual:
-                best_individual = quant_right_bits
-
-            fitness.append(quant_right_bits)
-        
-        self.best_individual.append(best_individual)
             
         return fitness   # *** modify final ***
 
@@ -257,3 +246,31 @@ class Genetic:
             self.best_generation['value'] = mean
 
         return mean
+
+
+    def calculate_fitness2(self, population):  # *** nao sera usado ***
+
+        fitness = []
+        best_individual = 0
+        
+        for line in population:
+            quant_right_bits = 0
+            for iterator in range(len(line)):
+                if line[iterator] == self.__heuristic[iterator]:
+                    quant_right_bits += 1
+            
+            self.evaluate_fitness(quant_right_bits)
+
+            # não ter o risco de um fitness onde todos os bits estejam errado
+            if quant_right_bits == 0:
+                quant_right_bits = 1
+            
+            # verifica se ainda é o melhor individuo da população 
+            if quant_right_bits > best_individual:
+                best_individual = quant_right_bits
+
+            fitness.append(quant_right_bits)
+        
+        self.best_individual.append(best_individual)
+            
+        return fitness   # *** modify final ***
