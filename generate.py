@@ -9,6 +9,11 @@ class generate:
         return self.to_binary(self.list_revisor_article)
 
 
+    def generate_heuristic(self, matriz):
+        # ** modify 
+        pass
+
+
     def get_great_revisor(self):
         return max(self.list_revisor_article)
 

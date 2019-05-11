@@ -16,8 +16,10 @@ class alocacaoArtigo:
     def __init__(self, crossoverrate=0.5, mutationrate=0.01, maxgen=100, inputpath='inputpath'):
         self.generation = 0
         self.repeat = 10
-        self.best_generations = []
-        self.best_gen = 100
+        self.best_individual_by_generation_in_ten_repeat = []
+        self.mean_individuals_generation_in_ten_repeat = []
+        self.best_gen = maxgen
+        self.best_generations = [] 
 
         # get matriz from reader.py > inputpath
         reader = read.reader()
@@ -25,7 +27,63 @@ class alocacaoArtigo:
         self.run(crossoverrate, mutationrate, maxgen)
         
 
-    def plot_generation(self, repeat, generations, means, best_individual):
+    def run(self, crossoverrate, mutationrate, maxgen):
+        for i in range(self.repeat):
+            genetic = gn.Genetic(self.matriz_p, crossoverrate, mutationrate, maxgen)
+            genetic.recursive_genetic(self.generation)
+
+            self.best_generations.append(genetic.best_generation['index'])
+           
+            if genetic.best_generation['index'] < self.best_gen:
+                self.best_gen = genetic.best_generation['index']
+
+            self.best_individual_by_generation_in_ten_repeat.append(genetic.best_individual)
+            self.mean_individuals_generation_in_ten_repeat.append(genetic.mean)
+
+            self.plot_generation(i, genetic.generations, genetic.mean, genetic.best_individual)
+
+        # best_ind... ten_repeat = [
+        # [ 4, 3, 2]        <- repetição 1 melhor individuo (fitness) em cada geração x repetição [posição: geração: 1, 2, 3 ..]
+        # [ 5, 2, 1]        <- repetição 2 melhor individuo (fitness) em cada geração x repetição [posição: geração: 1, 2, 3 ..]
+        # ....
+        # [n1, n2, n3]
+        # ]
+        mean_all_repeat = self.uniform(self.mean_individuals_generation_in_ten_repeat, maxgen)
+        best_all_repeat = self.uniform(self.best_individual_by_generation_in_ten_repeat, maxgen)
+
+        self.plot_generation(i, np.linspace(0, 100, 100), mean_all_repeat, best_all_repeat)
+        
+        print('\n----------------------------------------\n\t\tvez: ', i + 1, '\n----------------------------------------\n\n')
+
+        mean_all_gen = np.mean(self.best_generations)
+        self.plot_repeat(mean_all_gen)
+
+
+    def uniform(self, matriz, maxgen):
+        # [[ 00, 01, 02]        
+        # [ 10, 11, 12]        
+        # ....
+        # [n1, n2, n3]
+        # ]  
+        # a idéia é selecionar [x][n de interesse]
+
+        mean = []
+
+        for i in range(maxgen):
+            all_el = 0
+            count = 0
+            for j in range(len(matriz)):
+                if i < len(matriz[j]):
+                    all_el += matriz[j][i]
+                    count += 1
+
+            if count > 0:
+                mean.append(all_el / count)
+       
+        return mean
+
+
+    def plot_generation(self, repeat, generations, means, best_individual, ox=False):
         plt.plot(generations, means, linewidth=0.4, color='#777777')
         plt.plot(generations, best_individual, linewidth=0.4, color='lightgreen')
         plt.ylabel('mean')
@@ -33,8 +91,8 @@ class alocacaoArtigo:
 
         plt.title('Observação fitness médio e fitness melhor individuo x generation')
         
-        plt.title('analise na repetição: ' + str(repeat + 1))
-        plt.savefig('geneticFiles/repeat-' + str(repeat + 1) + '.png')
+        plt.title('fitness médio de todas as repetições e  maior fitness médio de todas as repetições x gerações')
+        (plt.savefig('geneticFiles/fitness.png'), plt.savefig('geneticFiles/repeat-' + str(repeat + 1) + '.png')) [ox is True]
         plt.close()
         pass
 
@@ -56,29 +114,11 @@ class alocacaoArtigo:
         plt.ylabel('generation')
         plt.xlabel('repeat')
         plt.legend()
-        #plt.savefig('geneticFiles/out_' + str(rand.random_int(0, 300)) + '.png')
-        plt.savefig('geneticFiles/fitness.png')
+        plt.savefig('geneticFiles/graph.png')
         #plt.show()
         plt.close()
 
 
-    def run(self, crossoverrate, mutationrate, maxgen):
-        for i in range(self.repeat):
-            genetic = gn.Genetic(self.matriz_p)
-            genetic.recursive_genetic(self.generation)
-
-            self.best_generations.append(genetic.best_generation['index'])
-            print ('best generation: ', genetic.best_generation['index'], ' - ', genetic.best_generation)
-
-            if genetic.best_generation['index'] < self.best_gen:
-                self.best_gen = genetic.best_generation['index']
-
-            self.plot_generation(i, genetic.generations, genetic.mean, genetic.best_individual)
-            print('\n----------------------------------------\n\t\tvez: ', i + 1, '\n----------------------------------------\n\n')
-
-        mean_all_gen = np.mean(self.best_generations)
-
-        self.plot_repeat(mean_all_gen)
 
 
-aloca = alocacaoArtigo()
+aloca = alocacaoArtigo(crossoverrate=0.7)

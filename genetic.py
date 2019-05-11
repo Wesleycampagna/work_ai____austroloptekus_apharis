@@ -3,21 +3,22 @@ import randomize as rand
 
 
 class Genetic:
-
-    crossoverrate = 0.4
-    mutationrate = 0.02
-    maxgen = 15                 
+                
     population = 6             
     ceil_floor = 1             # garante que o corte seja realizado da posição 1 a len-1
 
-    def __init__(self, matriz):
+    def __init__(self, matriz, crossoverrate, mutationrate, maxgen):
 
         self.__isEnd = False
         self.generate = gen.generate()
-        self.__objective = self.generate.generate_objective(matriz)
+        #self.__heuristic = self.generate.generate_heuristic(matriz)    # *** trocar pelo de baixo ***
+        self.__heuristic = self.generate.generate_objective(matriz)    # *** modify  ***
+        
+        self.crossoverrate = crossoverrate
+        self.mutationrate = mutationrate
+        self.maxgen = maxgen
 
-
-        print ('obj: ', self.__objective)
+        print ('obj: ', self.__heuristic)
         
         self.__obj = {
             'number_of_individuals': Genetic.population,
@@ -59,7 +60,7 @@ class Genetic:
         self.generations.append(generation)
        
         # print __objetivo baseado no que se obteve
-        print ('obj: ', self.__objective)
+        print ('obj: ', self.__heuristic)
 
         # print population
         self.print_matriz(self.population)
@@ -72,10 +73,11 @@ class Genetic:
         print('\n\t\t ## MÉDIA FITNESS ##\n')
         mean = self.get_mean(fitness, generation)
         print('média fitness: ', mean)
-        self.mean.append(mean)
 
+        self.mean.append(mean)
         # se algum individuo alcancar o fitness ideal, cancelar recursao
-        if not self.__isEnd and generation < Genetic.maxgen:
+        if not self.__isEnd and generation < self.maxgen:
+            
 
             # determinar roleta atraves do fitness individual
             print('\n\t\t ## ROULETE ##\n')
@@ -106,17 +108,17 @@ class Genetic:
             generation += 1
             return self.recursive_genetic(generation)
         
-        if generation < Genetic.maxgen:
+        if generation < self.maxgen:
             print ('\n\t enter')
             self.best_generation['index'] = generation
             self.best_generation['value'] = mean
 
-        value = ("\n\t\t## FIM POR OBJETIVO", "\n\t\t## FIM POR MAXGEN")[generation >= Genetic.maxgen]
+        value = ("\n\t\t## FIM POR OBJETIVO", "\n\t\t## FIM POR MAXGEN")[generation >= self.maxgen]
         
         print(value)
 
 
-    def calculate_fitness(self, population):  # penalisar falta
+    def calculate_fitness(self, population):  # *** modify  init ***
 
         fitness = []
         best_individual = 0
@@ -124,7 +126,7 @@ class Genetic:
         for line in population:
             quant_right_bits = 0
             for iterator in range(len(line)):
-                if line[iterator] == self.__objective[iterator]:
+                if line[iterator] == self.__heuristic[iterator]:
                     quant_right_bits += 1
             
             self.evaluate_fitness(quant_right_bits)
@@ -141,10 +143,10 @@ class Genetic:
         
         self.best_individual.append(best_individual)
             
-        return fitness
+        return fitness   # *** modify final ***
 
 
-    def evaluate_fitness(self, quant_right_bits):
+    def evaluate_fitness(self, quant_right_bits): # *** modify  *** condição de parada do if la encima
         if self.__obj['collumn'] == quant_right_bits:
             self.__isEnd = True
 
@@ -209,7 +211,7 @@ class Genetic:
 
             coefficient = rand.random_porcentual()
 
-            if (coefficient > Genetic.crossoverrate):
+            if (coefficient > self.crossoverrate):
 
                 first_array = self.population[line]
                 second_array = self.population[line+1]
@@ -232,7 +234,7 @@ class Genetic:
 
         for line in range(len(matriz)):
             for collumn in range(len(matriz[line])): 
-                if rand.random_porcentual() <= Genetic.mutationrate:
+                if rand.random_porcentual() <= self.mutationrate:
                     print('MUTATION: [ ' + str(line) + ' ][ ' + str(collumn) + ' ]')
                     if matriz[line][collumn] == 0: matriz[line][collumn] = 1
                     elif matriz[line][collumn] == 1: matriz[line][collumn] = 0
