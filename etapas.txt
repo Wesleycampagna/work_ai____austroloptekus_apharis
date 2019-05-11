@@ -1,8 +1,8 @@
 ( x ) determinar heuristica  
-(   ) projetar heuristica
+( x ) projetar heuristica
 ( x ) simular uma matriz 
 ( x ) ler a matriz de um arquivo
-(   ) criar calculo de fitness
+(   ) criar calculo de fitness >>> punir revisores que ultrapassa o limite, calcular convergencia para saber se para
 ( x ) criar classe randomica
 ( x ) realizar seleção
 ( x ) realizar crossover
@@ -17,7 +17,7 @@
 ( x ) converter de volta binario
 ( x ) fitness.png
 ( x ) gráfico com 2 linhas, uma da melhor solução, outra da média (10 repetições)
-(   ) Também deve ser mensurado o tempo de execuçao e o numero de iteracoes
+( x ) Também deve ser mensurado o tempo de execuçao e o numero de iteracoes
 levado ate a convergencia
 (   ) Fazer entrada por parametro para 3 ordens diferentes de parametros 
 
