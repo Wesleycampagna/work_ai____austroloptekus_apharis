@@ -45,7 +45,9 @@ class alocacaoArtigo:
             self.best_individual_by_generation_in_ten_repeat.append(genetic.best_individual)
             self.mean_individuals_generation_in_ten_repeat.append(genetic.mean)
 
-            self.plot_generation(i, genetic.generations, genetic.mean, genetic.best_individual)
+            self.plot_generation(i, genetic.mean, genetic.best_individual)
+
+            print('\n----------------------------------------\n\t\trepeat: ', i + 1, '\n----------------------------------------\n\n')
 
         # best_ind... ten_repeat = [
         # [ 4, 3, 2]        <- repetição 1 melhor individuo (fitness) em cada geração x repetição [posição: geração: 1, 2, 3 ..]
@@ -57,9 +59,7 @@ class alocacaoArtigo:
         mean_all_repeat = self.uniform(self.mean_individuals_generation_in_ten_repeat, maxgen)
         best_all_repeat = self.uniform(self.best_individual_by_generation_in_ten_repeat, maxgen)
 
-        self.plot_generation(i, np.linspace(0, maxgen, maxgen), mean_all_repeat, best_all_repeat, ox=False)
-        
-        print('\n----------------------------------------\n\t\tvez: ', i + 1, '\n----------------------------------------\n\n')
+        self.plot_generation(i, mean_all_repeat, best_all_repeat, ox=False)
 
         mean_all_gen = np.mean(self.best_generations)
         self.plot_repeat(mean_all_gen)
@@ -92,9 +92,10 @@ class alocacaoArtigo:
         return mean
 
 
-    def plot_generation(self, repeat, generations, means, best_individual, ox=True):
-        plt.plot(generations, means, linewidth=0.4, color='#777777')
-        plt.plot(generations, best_individual, linewidth=0.4, color='lightgreen')
+    def plot_generation(self, repeat, means, best_individual, ox=True):
+        gens = np.linspace(0, len(means), len(means))
+        plt.plot(gens, means, linewidth=0.4, color='#777777')
+        plt.plot(gens, best_individual, linewidth=0.4, color='lightgreen')
         plt.ylabel('mean')
         plt.xlabel('generation')
 
