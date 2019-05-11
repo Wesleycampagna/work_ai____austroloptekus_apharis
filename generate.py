@@ -11,11 +11,11 @@ class generate:
 
 
     def generate_heuristic(self, matriz):
-        # ** modify 
-        self.list_revisor_article = heu_construct.Heuristic().generateObjective(matriz)
-        return self.to_binary(self.list_revisor_article)
-        pass
-
+        summ = 0
+        self.list_revisor_article_ = heu_construct.Heuristic().generateHeuristic(matriz)
+        for value in self.list_revisor_article_: summ += value
+        return summ
+       
 
     def get_great_revisor(self):
         return max(self.list_revisor_article)
@@ -82,7 +82,27 @@ class generate:
         set_str = '{0:0' + str(positions) + 'b}'
         return set_str.format(number)
 
+
     def replace(self, lista, linha, inicio, fim):
         for i in range(inicio, fim):
             linha[i] = lista[i - inicio]
         pass
+
+    
+    def to_int_matriz(self, matriz, tetolog):
+        individuals = []
+
+        for line in matriz:
+            list = []
+            
+            for i in range(0, len(line), tetolog):
+                atual = ''  
+
+                for j in range(i, i + tetolog):
+                    atual += str(line[j])
+
+                list.append(int(atual, 2))
+
+            individuals.append(list)
+        
+        return individuals

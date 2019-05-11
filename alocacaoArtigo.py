@@ -53,10 +53,11 @@ class alocacaoArtigo:
         # ....
         # [n1, n2, n3]
         # ]
+
         mean_all_repeat = self.uniform(self.mean_individuals_generation_in_ten_repeat, maxgen)
         best_all_repeat = self.uniform(self.best_individual_by_generation_in_ten_repeat, maxgen)
 
-        self.plot_generation(i, np.linspace(0, 100, 100), mean_all_repeat, best_all_repeat)
+        self.plot_generation(i, np.linspace(0, maxgen, maxgen), mean_all_repeat, best_all_repeat, ox=False)
         
         print('\n----------------------------------------\n\t\tvez: ', i + 1, '\n----------------------------------------\n\n')
 
@@ -79,25 +80,30 @@ class alocacaoArtigo:
             count = 0
             for j in range(len(matriz)):
                 if i < len(matriz[j]):
+                    
                     all_el += matriz[j][i]
                     count += 1
 
             if count > 0:
-                mean.append(all_el / count)
+                med = (all_el / count)
+                #print('c: ', count, ' all_el: ', all_el, ' i: ', i, ' med: ', med)
+                mean.append(med)
        
         return mean
 
 
-    def plot_generation(self, repeat, generations, means, best_individual, ox=False):
+    def plot_generation(self, repeat, generations, means, best_individual, ox=True):
         plt.plot(generations, means, linewidth=0.4, color='#777777')
         plt.plot(generations, best_individual, linewidth=0.4, color='lightgreen')
         plt.ylabel('mean')
         plt.xlabel('generation')
 
-        plt.title('Observação fitness médio e fitness melhor individuo x generation')
-        
+        plt.title('Observação fitness médio e fitness melhor individuo x generation')        
         plt.title('fitness médio de todas as repetições e  maior fitness médio de todas as repetições x gerações')
-        (plt.savefig('geneticFiles/fitness.png'), plt.savefig('geneticFiles/repeat-' + str(repeat + 1) + '.png')) [ox is True]
+        
+        if ox: plt.savefig('geneticFiles/repeat-' + str(repeat + 1) + '.png')
+        else: plt.savefig('geneticFiles/fitness.png')
+        #plt.show()
         plt.close()
         pass
 
@@ -126,4 +132,4 @@ class alocacaoArtigo:
 
 
 
-aloca = alocacaoArtigo(crossoverrate=0.7, mutationrate=1)
+aloca = alocacaoArtigo(crossoverrate=0.7, mutationrate=0.01, maxgen=100)

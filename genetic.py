@@ -11,14 +11,17 @@ class Genetic:
 
         self.__isEnd = False
         self.generate = gen.generate()
-        self.__heuristic = self.generate.generate_heuristic(matriz)    # *** trocar pelo de baixo ***
-        #self.__heuristic = self.generate.generate_objective(matriz)    # *** modify  ***
+        self.__heuristic2 = self.generate.generate_heuristic(matriz)    # *** trocar pelo de baixo ***
+        self.__heuristic = self.generate.generate_objective(matriz)    # *** modify  ***
+
+        print('t: ',self.__heuristic2)
         
         self.crossoverrate = crossoverrate
         self.mutationrate = mutationrate
         self.maxgen = maxgen
+        self.mat = matriz
 
-        print ('obj: ', self.__heuristic)
+        print('obj: ', self.__heuristic)
         
         self.__obj = {
             'number_of_individuals': Genetic.population,
@@ -62,7 +65,7 @@ class Genetic:
         self.generations.append(generation)
        
         # print __objetivo baseado no que se obteve
-        print ('obj: ', self.__heuristic)
+        print('obj: ', self.__heuristic)
 
         # print population
         self.print_matriz(self.population)
@@ -111,7 +114,7 @@ class Genetic:
             return self.recursive_genetic(generation)
         
         if generation < self.maxgen:
-            print ('\n\t enter')
+            print('\n\t enter')
             self.best_generation['index'] = generation
             self.best_generation['value'] = mean
 
@@ -120,26 +123,49 @@ class Genetic:
         print(value)
 
 
-    def calculate_fitness(self, population):  # *** modify  init ***
+    def calculate_fitness(self, population):  
 
-        fitness = []
         tetolog = self.__obj['tetolog']
-        for line in population:
-            soma = 0
-            for i in range(0, len(line), tetolog):
-                atual = ''
-                for j in range(i, i + tetolog):
-                    atual += str(population[line][j])
-                soma = int(atual, 2)
-            fitness.append(soma)
+        new_population = self.generate.to_int_matriz(population, tetolog)
+        fitness = []
+        best_individual = 0
 
+        for individuals in new_population:
+            sum_individual = 0
+            i = 0
+            for individual in individuals:
+                sum_individual += self.mat[individual][i]
+                i += 1
+
+            # avalia se o algoritmo parará a execução dada a atual geração
+            self.evaluate_stop(sum_individual)                      # falta add convergencia
+
+            # avalia em relação a disponibilidade e valores, podendo dar penalidades
+            self.evaluate_fitness(individuals, sum_individual)      # ** falta implementar
+
+            # não ter o risco de um fitness zerado'
+            if sum_individual == 0 :
+                sum_individual = 1
+
+            # append fitness do individuo a lista de fitness já com penalidade
+            fitness.append(sum_individual)
+
+            if sum_individual > best_individual:
+                best_individual = sum_individual
             
-        return fitness   # *** modify final ***
+        self.best_individual.append(best_individual)
+
+        return fitness
 
 
-    def evaluate_fitness(self, quant_right_bits): # *** modify  *** condição de parada do if la encima
-        if self.__obj['elements'] == quant_right_bits:
+    def evaluate_stop(self, sum_individual): # *** modify  *** condição de parada do if la encima
+        if self.__heuristic2 == sum_individual:
             self.__isEnd = True
+
+        
+    def evaluate_fitness(self, individuals, sum_individual):
+        # desenvolver
+        pass
 
 
     def get_roulette(self, fitness_array):
@@ -247,6 +273,9 @@ class Genetic:
 
         return mean
 
+# +======================================================================================================+
+#                   antigos para bits
+# +======================================================================================================+
 
     def calculate_fitness2(self, population):  # *** nao sera usado ***
 
@@ -259,7 +288,7 @@ class Genetic:
                 if line[iterator] == self.__heuristic[iterator]:
                     quant_right_bits += 1
             
-            self.evaluate_fitness(quant_right_bits)
+            self.evaluate_fitness_(quant_right_bits)
 
             # não ter o risco de um fitness onde todos os bits estejam errado
             if quant_right_bits == 0:
@@ -274,3 +303,10 @@ class Genetic:
         self.best_individual.append(best_individual)
             
         return fitness   # *** modify final ***
+
+
+    
+
+    def evaluate_fitness_(self, quant_right_bits): 
+        if self.__obj['elements'] == quant_right_bits:
+            self.__isEnd = True
