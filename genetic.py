@@ -23,11 +23,13 @@ class Genetic:
         self.__obj = {
             'number_of_individuals': Genetic.population,
             'lines': len(matriz),
+            'tetolog': self.generate.define_log_element(self.generate.get_great_revisor()),
             # -1 para tirar a disposição de correção
-            'collumn': (len(matriz[0]) -1) * 
+            'elements': (len(matriz[0]) -1) * 
                 self.generate.define_log_element(self.generate.get_great_revisor()),   # vai ter que mexer no 2 (tem que ser dinamico na quantidade de revisores)
             # @disp: array das disponibilidades
-            'disp': self.generate.generate_disp(matriz)
+            'disp': self.generate.generate_disp(matriz),
+            'collumn': (len(matriz[0]) -1)
         }
 
         # gera aleatoriamente individuos para a populacao
@@ -147,7 +149,7 @@ class Genetic:
 
 
     def evaluate_fitness(self, quant_right_bits): # *** modify  *** condição de parada do if la encima
-        if self.__obj['collumn'] == quant_right_bits:
+        if self.__obj['elements'] == quant_right_bits:
             self.__isEnd = True
 
 
@@ -205,7 +207,7 @@ class Genetic:
         # um array de n posições o corte acontece apenas a partir de 'ceil_floor' e 'ceil_floor
         # antes do final do vetor, se ceil_floor = 2 um vetor de 6 posição pode ser cortado 
         # apenas nas posições 2, 3 e 4 
-        cp = rand.random_int(Genetic.ceil_floor, self.__obj['collumn'] - Genetic.ceil_floor)
+        cp = rand.random_int(Genetic.ceil_floor, self.__obj['elements'] - Genetic.ceil_floor)
 
         for line in range(0, len(self.population), 2):
 
@@ -223,21 +225,21 @@ class Genetic:
 
     def cross(self, first_piece, second_piece, cp):
         genetic_process = []
-        for i in range(self.__obj['collumn']):
+        for i in range(self.__obj['elements']):
             if i < cp: genetic_process.append(first_piece[i])
             else: genetic_process.append(second_piece[i])
            
         return genetic_process
 
-
     def mutation(self, matriz):
-
+        tetolog = self.__obj['tetolog']
         for line in range(len(matriz)):
-            for collumn in range(len(matriz[line])): 
+            for collumn in range(0, len(matriz[line]), tetolog): 
                 if rand.random_porcentual() <= self.mutationrate:
                     print('MUTATION: [ ' + str(line) + ' ][ ' + str(collumn) + ' ]')
-                    if matriz[line][collumn] == 0: matriz[line][collumn] = 1
-                    elif matriz[line][collumn] == 1: matriz[line][collumn] = 0
+                    lista = self.generate.create_element(self.__obj)
+                    self.generate.replace(lista,matriz[line], collumn, collumn + tetolog)
+
 
         return matriz
 

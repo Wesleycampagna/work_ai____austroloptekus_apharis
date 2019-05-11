@@ -9,7 +9,7 @@ class Heuristic:
 			maior = matriz[0][i]
 			posMaior = 0
 			for j in range(1, linhasRevisor):
-				if(maior < matriz[j][i])
+				if(maior < matriz[j][i]):
 					maior = matriz[j][i]
 					posMaior = j
 			listaResultado.append(matriz[posMaior][i])

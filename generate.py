@@ -33,14 +33,21 @@ class generate:
         lines = []
 
         for line in range(dimension_obj['collumn']):
-            lines.append(self.create_element(dimension_obj))
+            lines.extend(self.create_element(dimension_obj))
         
         return lines
 
 
     # cria um elemento randomico
     def create_element(self, dimension_obj):
-        return rand.random_bin()
+        revisores = (dimension_obj['lines'])
+        tetolog = self.define_log_element(revisores)
+        lista = []
+
+        string_binaria = self.__get_bin(rand.random_int(0, (revisores) - 1), tetolog)
+        for i in string_binaria:
+            lista.append(int(i))
+        return lista
 
 
     # retorna [posição revisor, disponibilidade]
@@ -75,3 +82,7 @@ class generate:
         set_str = '{0:0' + str(positions) + 'b}'
         return set_str.format(number)
 
+    def replace(self, lista, linha, inicio, fim):
+        for i in range(inicio, fim):
+            linha[i] = lista[i - inicio]
+        pass
