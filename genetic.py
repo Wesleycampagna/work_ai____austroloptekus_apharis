@@ -13,6 +13,9 @@ class Genetic:
         self.generate = gen.generate()
         self.__heuristic2 = self.generate.generate_heuristic(matriz)    # *** trocar pelo de baixo ***
         self.__heuristic = self.generate.generate_objective(matriz)    # *** modify  ***
+        self.__somaMeanatual = 0   # usado para verificar convergencia
+        self.__somaMeanterior = 0   # usado para verificar convergencia
+        self.__somaGen = 0   # se totalizar 10 geracoes, entao verifica se ha convergencia
 
         print('t: ',self.__heuristic2)
         
@@ -80,6 +83,12 @@ class Genetic:
         print('média fitness: ', mean)
 
         self.mean.append(mean)
+        
+        self.__somaMeanatual += mean   # usado para verificar convergencia
+        print(' to rodando aqui rapaz')
+        self.__somaGen += 1   # usado para verificar convergencia
+        print(self.__somaGen)
+
         # se algum individuo alcancar o fitness ideal, cancelar recursao
         if not self.__isEnd and generation < self.maxgen:
             
@@ -161,9 +170,26 @@ class Genetic:
     def evaluate_stop(self, sum_individual): # *** modify  *** condição de parada do if la encima
         if self.__heuristic2 == sum_individual:
             self.__isEnd = True
+        elif self.__somaGen == 10:
+            mediaAtual = self.__somaMeanatual/10
+            mediaAnterior = self.__somaMeanterior/10
+            if abs(mediaAtual - mediaAnterior) < 2 and self.__somaMeanterior != 0: # a media da geracao atual pode ser menor q a media da geracao anterior? Aplicar heuristica
+                 self.__isEnd = True
+            print(mediaAtual, mediaAnterior, ' toma aew')
+            self.__somaMeanterior = self.__somaMeanatual
+            self.__somaMeanatual = 0
+            self.__somaGen = 0
 
         
     def evaluate_fitness(self, individuals, sum_individual):
+        disponibilidade = []
+        disponibilidade.extend(self.__obj['disp'])
+        punicao = 3 # definir punicao
+        for i in range(len(individuals)):
+            disponibilidade[individuals[i]][1] = disponibilidade[individuals[i]][1] - 1
+            if(disponibilidade[individuals[i]][1] < 0):
+                sum_individual = sum_individual - punicao
+                break
         # desenvolver
         pass
 
