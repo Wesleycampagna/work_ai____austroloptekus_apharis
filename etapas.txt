@@ -10,7 +10,7 @@
 ( x ) fazer funcionar o alg genético
 ( # ) testar 3 casos diferentes
 ( x ) matplot do fitness médio
-(   ) matplot do maior fitness
+( x ) matplot do maior fitness
 ( x ) condição de 10x
 ( x ) matplot para as 10x
 ( +-) escrever em um arquivo de saida (saida-genetico.txt) >>>> Falta so acoplar ao projeto
