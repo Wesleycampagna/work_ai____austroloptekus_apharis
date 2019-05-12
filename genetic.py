@@ -1,6 +1,6 @@
 import generate as gen
 import randomize as rand
-
+import math
 
 class Genetic:
                 
@@ -27,7 +27,7 @@ class Genetic:
         self.__heuristic_sum = self.__generate.generate_heuristic(matriz)    
         self.__heuristic_bit = self.__generate.generate_objective(matriz)   
         self.__converg = (self._Genetic__heuristic_sum * 0.20)
-        self.__penalty = self._Genetic__heuristic_sum / 5
+        self.__penalty = self._Genetic__heuristic_sum / 5.1
 
         # parametros do algoritmo genético        
         self.__crossoverrate = crossoverrate
@@ -76,7 +76,7 @@ class Genetic:
         
         # print da geração atual
         #print('\n+ ======================================+')
-        print('+\t\tgeneration: ', generation)
+        #print('+\t\tgeneration: ', generation)
         #print('+ ======================================+\n')
 
         self.generations.append(generation)
@@ -145,6 +145,7 @@ class Genetic:
 
         value = ("\n\t\t## FIM POR OBJETIVO", "\n\t\t## FIM POR MAXGEN")[generation >= self.__maxgen]
         
+        print(generation)
         #print(value)
 
 
@@ -169,7 +170,7 @@ class Genetic:
             sum_individual = self.evaluate_fitness(individual, sum_individual)      # penalidades para disponibilidades incoerentes
 
 
-            print('1: ', k, ' 2: ', sum_individual)                 # apagar versão final %%%
+            #print('1: ', k, ' 2: ', sum_individual)                 # apagar versão final %%%
 
             # não ter o risco de um fitness zerado ou negativo, causa problemas
             if sum_individual <= 0:
@@ -184,8 +185,10 @@ class Genetic:
 
                 if self.__best_fitness < sum_individual:
                     self.__best_fitness = sum_individual
-                    self.best_individual = individual
-                    self.best_individual.append(sum_individual)
+                    # se o numero sum_individual vier quebrado não adicionar em best_individual (-1 disp)
+                    if sum_individual == math.ceil(sum_individual):
+                        self.best_individual = individual
+                        self.best_individual.append(sum_individual)
 
             # avalia se o algoritmo parará a execução dada a atual geração
             self.evaluate_stop(sum_individual)                      # analise de convergencia
@@ -250,7 +253,7 @@ class Genetic:
         for item in self.__obj['disp']: disponibilidade.append(item[1])
         punicao = self.__penalty # definir punicao
 
-        print(individual)                                               # apagar versão final %%%
+        #print(individual)                                               # apagar versão final %%%
         
         for i in range(len(individual)):
             disponibilidade[individual[i]] = disponibilidade[individual[i]] - 1
@@ -264,7 +267,7 @@ class Genetic:
             elif disponibilidade[individual[i]] == -3:
                 sum_individual = sum_individual - (punicao * 4)
             
-        print('disp: ', disponibilidade)                                # apagar versão final %%%
+        #print('disp: ', disponibilidade)                                # apagar versão final %%%
 
         return sum_individual
 

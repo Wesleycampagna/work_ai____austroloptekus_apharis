@@ -4,6 +4,7 @@ import genetic as gn
 import matplotlib.pyplot as plt
 import numpy as np
 import time
+# import write
 
 # ------------------------------------------------------------------------------------------
 #    Alunos:    William Felipe Tsubota      - 201
@@ -21,6 +22,7 @@ class alocacaoArtigo:
         self.mean_individuals_generation_in_ten_repeat = []
         self.best_gen = maxgen
         self.best_generations = [] 
+        self.best_all_individual = []
 
         # get matriz from reader.py > inputpath
         reader = read.reader()
@@ -51,6 +53,12 @@ class alocacaoArtigo:
 
             self.plot_generation(i, genetic.mean, genetic.best_individual_by_generation)
 
+            if len(self.best_all_individual) == 0:
+                self.best_all_individual = genetic.best_individual
+
+            elif self.best_all_individual[-1] < genetic.best_individual[-1]:
+                self.best_all_individual = genetic.best_individual
+                
             print('\n----------------------------------------\n\t\trepeat: ', i + 1, '\n----------------------------------------\n\n')
 
         # best_ind... ten_repeat = [
@@ -67,6 +75,8 @@ class alocacaoArtigo:
 
         mean_all_gen = np.mean(self.best_generations)
         self.plot_repeat(mean_all_gen)
+
+        # writer here. subi uma casa e tira a ultima
 
 
     def uniform(self, matriz, maxgen):
