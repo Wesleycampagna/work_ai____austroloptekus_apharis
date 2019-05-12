@@ -6,7 +6,6 @@ class Genetic:
                 
     population = 6             
     ceil_floor = 1             # garante que o corte seja realizado da posição 1 a len-1
-    penalty = 3
     amount_gen_to_verify = 10
 
 
@@ -19,15 +18,17 @@ class Genetic:
         self.__soma_mean_atual = 0   # usado para verificar convergencia
         self.__soma_med_anterior = 0   # usado para verificar convergencia
         self.__soma_gen = 0   # se totalizar 10 geracoes, entao verifica se ha convergencia
+        self.converg = (self._Genetic__heuristic_sum * 0.2)
 
-        print('sum_h: ',self.__heuristic_sum)
+        #print('sum_h: ',self.__heuristic_sum)
         
         self.crossoverrate = crossoverrate
         self.mutationrate = mutationrate
         self.maxgen = maxgen
         self.mat = matriz
+        self.penalty = self._Genetic__heuristic_sum / 4
 
-        print('obj: ', self.__heuristic_bit)
+        #print('obj: ', self.__heuristic_bit)
         
         self.__obj = {
             'number_of_individuals': Genetic.population,
@@ -53,7 +54,7 @@ class Genetic:
             'value': 0
         }
 
-        print('disp: ', self.__obj['disp'])
+        #print('disp: ', self.__obj['disp'])
         pass
 
 
@@ -65,63 +66,62 @@ class Genetic:
     def recursive_genetic(self, generation):
         
         # print da geração atual
-        print('\n+ ======================================+')
+        #print('\n+ ======================================+')
         print('+\t\tgeneration: ', generation)
-        print('+ ======================================+\n')
+        #print('+ ======================================+\n')
 
         self.generations.append(generation)
        
         # print __heuristica baseado no que se obteve
-        print('obj: ', self._Genetic__heuristic_sum)
+        #print('obj: ', self._Genetic__heuristic_sum)
 
         # print population
-        self.print_matriz(self.population)
+        #self.print_matriz(self.population)
 
         # calular fitness de cada individuo 
-        print('\n\t\t ## FITNESS ##\n')
+        #print('\n\t\t ## FITNESS ##\n')
         fitness = self.calculate_fitness(self.population)
-        print('fitness: ', fitness)
+        #print('fitness: ', fitness)
 
         #obter média dos individuos dessa geração
-        print('\n\t\t ## MÉDIA FITNESS ##\n')
+        #print('\n\t\t ## MÉDIA FITNESS ##\n')
         mean = self.get_mean(fitness, generation)
-        print('média fitness: ', mean)
+        #print('média fitness: ', mean)
 
         self.mean.append(mean)
         
         self.__soma_mean_atual += mean   # usado para verificar convergencia
-        print(' to rodando aqui rapaz')
+        #print(' to rodando aqui rapaz')
         self.__soma_gen += 1   # usado para verificar convergencia
-        print(self.__soma_gen)
+        #print(self.__soma_gen)
 
         # se algum individuo alcancar o fitness ideal, cancelar recursao
         if not self.__isEnd and generation < self.maxgen:            
 
             # determinar roleta atraves do fitness individual
-            print('\n\t\t ## ROULETE ##\n')
+            #print('\n\t\t ## ROULETE ##\n')
             roulette = self.get_roulette(fitness)
-            print('roulette: ', roulette)
+            #print('roulette: ', roulette)
 
             #seleciona valores randomicos para 'seleção' na roleta 
-            print('\n\t ## ROULETE RAFFLE PORCENT ##\n')
+            #print('\n\t ## ROULETE RAFFLE PORCENT ##\n')
             raffle_roulette = self.randomic_porcentual_roulette()
-            print('raffle_roulette: ', raffle_roulette)
+            #print('raffle_roulette: ', raffle_roulette)
 
             # sortear individuos para a nova populacao && lhe atribuir esses novos individuos sorteados 
-            print('\n\t\t ## SELECT ##\n')
+            #print('\n\t\t ## SELECT ##\n')
             self.population = self.selected_to_crossover_and_set(raffle_roulette, roulette, self.population)
-            self.print_matriz(self.population)
+            #self.print_matriz(self.population)
             
             # realizar crossover
-            print('\n\t\t ## CROSSOVER ##\n')
+            #print('\n\t\t ## CROSSOVER ##\n')
             self.crossover()
-            self.print_matriz(self.population)
-
+            #self.print_matriz(self.population)
 
             # realizar mutation
             self.population = self.mutation(self.population) 
-            print('\n\t\t ## MUTATION ##\n')
-            self.print_matriz(self.population)
+            #print('\n\t\t ## MUTATION ##\n')
+            #self.print_matriz(self.population)
 
             # incrementar generation && rechamar o método
             generation += 1
@@ -129,13 +129,13 @@ class Genetic:
         
         # ** caso alguma condição seja atingida salvar melhor generation (atual) **
         if generation < self.maxgen:
-            print('\n\t enter')
+            #print('\n\t enter')
             self.best_generation['index'] = generation
             self.best_generation['value'] = mean
 
         value = ("\n\t\t## FIM POR OBJETIVO", "\n\t\t## FIM POR MAXGEN")[generation >= self.maxgen]
         
-        print(value)
+        #print(value)
 
 
     def calculate_fitness(self, population):  
@@ -145,18 +145,21 @@ class Genetic:
         fitness = []
         best_individual = 0
 
-        for individuals in new_population:
+        for individual in new_population:
             sum_individual = 0
             i = 0
-            for individual in individuals:
-                sum_individual += self.mat[individual][i]
+            for revisor in individual:
+                sum_individual += self.mat[revisor][i]
                 i += 1
 
             # avalia se o algoritmo parará a execução dada a atual geração
             self.evaluate_stop(sum_individual)                      # analise de convergencia
 
+            #print('1: ', sum_individual)
             # avalia em relação a disponibilidade e valores, podendo dar penalidades
-            self.evaluate_fitness(individuals, sum_individual)      # penalidades para disponibilidades incoerentes
+            sum_individual = self.evaluate_fitness(individual, sum_individual)      # penalidades para disponibilidades incoerentes
+
+            #print('2: ', sum_individual)
 
             # não ter o risco de um fitness zerado ou negativo
             if sum_individual <= 0:
@@ -182,10 +185,12 @@ class Genetic:
             mediaAnterior = self.__soma_med_anterior / Genetic.amount_gen_to_verify
 
             # a media da geracao atual pode ser menor q a media da geracao anterior? sim. Aplicar heuristica
-            if abs(mediaAtual - mediaAnterior) < 2 and self.__soma_med_anterior != 0: 
-                 self.__isEnd = True
+            if (abs(mediaAtual - mediaAnterior) < self.converg 
+                and mediaAtual > (self.__heuristic_sum - self.converg) 
+                    and self.__soma_med_anterior != 0): 
+                self.__isEnd = True
 
-            print(mediaAtual, mediaAnterior, ' toma aew')
+            #print(mediaAtual, mediaAnterior, ' toma aew')
             self.__soma_med_anterior = self.__soma_mean_atual
             self.__soma_mean_atual = 0
             self.__soma_gen = 0
@@ -194,14 +199,14 @@ class Genetic:
     def evaluate_fitness(self, individuals, sum_individual):
         disponibilidade = []
         disponibilidade.extend(self.__obj['disp'])
-        punicao = Genetic.penalty # definir punicao
+        punicao = self.penalty # definir punicao
         
         for i in range(len(individuals)):
             disponibilidade[individuals[i]][1] = disponibilidade[individuals[i]][1] - 1
             if(disponibilidade[individuals[i]][1] < 0):
                 sum_individual = sum_individual - punicao
                 break
-        pass
+        return sum_individual
 
 
     def get_roulette(self, fitness_array):
@@ -246,7 +251,7 @@ class Genetic:
             positions.append(position)
             select.append(matriz[position])
 
-        print('\npositions: ', positions, '\n')
+        #print('\npositions: ', positions, '\n')
         
         return select
 
@@ -287,7 +292,7 @@ class Genetic:
         for line in range(len(matriz)):
             for collumn in range(0, len(matriz[line]), tetolog): 
                 if rand.random_porcentual() <= self.mutationrate:
-                    print('MUTATION: [ ' + str(line) + ' ][ ' + str(collumn) + ' ]')
+                    #print('MUTATION: [ ' + str(line) + ' ][ ' + str(collumn) + ' ]')
                     lista = self.generate.create_element(self.__obj)
                     self.generate.replace(lista,matriz[line], collumn, collumn + tetolog)
 
