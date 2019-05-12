@@ -4,7 +4,7 @@ import genetic as gn
 import matplotlib.pyplot as plt
 import numpy as np
 import time
-# import write
+import writer as write
 
 # ------------------------------------------------------------------------------------------
 #    Alunos:    William Felipe Tsubota      - 201
@@ -16,6 +16,7 @@ import time
 class alocacaoArtigo:
  
     def __init__(self, crossoverrate=0.5, mutationrate=0.01, maxgen=100, inputpath='inputpath'):
+        self.outputpath = 'saida-genetico.txt'
         self.generation = 0
         self.repeat = 10
         self.best_individual_by_generation_in_ten_repeat = []
@@ -56,8 +57,9 @@ class alocacaoArtigo:
             if len(self.best_all_individual) == 0:
                 self.best_all_individual = genetic.best_individual
 
-            elif self.best_all_individual[-1] < genetic.best_individual[-1]:
-                self.best_all_individual = genetic.best_individual
+            elif len(genetic.best_individual) != 0:
+                if self.best_all_individual[-1] < genetic.best_individual[-1]:
+                    self.best_all_individual = genetic.best_individual
                 
             print('\n----------------------------------------\n\t\trepeat: ', i + 1, '\n----------------------------------------\n\n')
 
@@ -77,6 +79,11 @@ class alocacaoArtigo:
         self.plot_repeat(mean_all_gen)
 
         # writer here. subi uma casa e tira a ultima
+
+        writer = write.writer()
+        del self.best_all_individual[-1]
+        self.best_all_individual = map(lambda x:x+1, self.best_all_individual)
+        writer.writeArchive(self.best_all_individual, self.outputpath)
 
 
     def uniform(self, matriz, maxgen):
