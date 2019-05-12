@@ -4,7 +4,7 @@ import randomize as rand
 
 class Genetic:
                 
-    population = 6             
+    population = 6            
     ceil_floor = 1             # garante que o corte seja realizado da posição 1 a len-1
     amount_gen_to_verify = 10
 
@@ -20,19 +20,18 @@ class Genetic:
         self.__soma_gen = 0   # se totalizar 10 geracoes, entao verifica se ha convergencia
         self.converg = (self._Genetic__heuristic_sum * 0.2)
 
-        #print('sum_h: ',self.__heuristic_sum)
+        print('sum_h: ',self.__heuristic_sum)
+        #print('obj: ', self.__heuristic_bit)
         
         self.crossoverrate = crossoverrate
         self.mutationrate = mutationrate
         self.maxgen = maxgen
         self.mat = matriz
-        self.penalty = self._Genetic__heuristic_sum / 4
-
-        #print('obj: ', self.__heuristic_bit)
+        self.penalty = self._Genetic__heuristic_sum / 5
         
         self.__obj = {
             'number_of_individuals': Genetic.population,
-            'lines': len(matriz),
+            'lines': len(matriz) - 1,
             'tetolog': self.generate.define_log_element(self.generate.get_great_revisor()),
             # -1 para tirar a disposição de correção, x tetoLog (representação binária)
             'elements': (len(matriz[0]) -1) * 
@@ -54,7 +53,7 @@ class Genetic:
             'value': 0
         }
 
-        #print('disp: ', self.__obj['disp'])
+        print('disp: ', self.__obj['disp'])
         pass
 
 
@@ -155,11 +154,11 @@ class Genetic:
             # avalia se o algoritmo parará a execução dada a atual geração
             self.evaluate_stop(sum_individual)                      # analise de convergencia
 
-            #print('1: ', sum_individual)
+            k = sum_individual
             # avalia em relação a disponibilidade e valores, podendo dar penalidades
             sum_individual = self.evaluate_fitness(individual, sum_individual)      # penalidades para disponibilidades incoerentes
 
-            #print('2: ', sum_individual)
+            print('1: ', k, ' 2: ', sum_individual)
 
             # não ter o risco de um fitness zerado ou negativo
             if sum_individual <= 0:
@@ -196,16 +195,18 @@ class Genetic:
             self.__soma_gen = 0
 
         
-    def evaluate_fitness(self, individuals, sum_individual):
-        disponibilidade = []
-        disponibilidade.extend(self.__obj['disp'])
+    def evaluate_fitness(self, individual, sum_individual):
+        disponibilidade = self.__obj['disp']
         punicao = self.penalty # definir punicao
+
+        print(individual)
         
-        for i in range(len(individuals)):
-            disponibilidade[individuals[i]][1] = disponibilidade[individuals[i]][1] - 1
-            if(disponibilidade[individuals[i]][1] < 0):
+        for i in range(len(individual)):
+            disponibilidade[individual[i]][1] = disponibilidade[individual[i]][1] - 1
+            if(disponibilidade[individual[i]][1] < 0):
                 sum_individual = sum_individual - punicao
                 break
+                
         return sum_individual
 
 

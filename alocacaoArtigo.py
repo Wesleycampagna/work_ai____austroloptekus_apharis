@@ -133,4 +133,4 @@ class alocacaoArtigo:
 
 
 
-aloca = alocacaoArtigo(crossoverrate=0.7, mutationrate=0.01, maxgen=100)
+aloca = alocacaoArtigo(crossoverrate=0.7, mutationrate=0.03, maxgen=100)

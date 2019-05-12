@@ -59,14 +59,13 @@ class generate:
 
 
     def define_log_element(self, great_element_value):
-        return math.ceil(math.log(float(great_element_value), 2))
+        return math.ceil(math.log(float(great_element_value + 1), 2))
 
 
     # transfere para binario um array de entrada
     def to_binary(self, array):
         
         positions = self.define_log_element(max(array))
-
         binary_format_array = []
         
         for element in array:
@@ -93,16 +92,12 @@ class generate:
         individuals = []
 
         for line in matriz:
-            list = []
-            
+            list = []            
             for i in range(0, len(line), tetolog):
                 atual = ''  
-
                 for j in range(i, i + tetolog):
                     atual += str(line[j])
-
                 list.append(int(atual, 2))
-
             individuals.append(list)
         
         return individuals
