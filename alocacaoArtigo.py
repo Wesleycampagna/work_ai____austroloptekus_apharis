@@ -7,10 +7,10 @@ import time
 import writer as write
 
 # ------------------------------------------------------------------------------------------
-#    Alunos:    William Felipe Tsubota      - 201
+#    Alunos:    William Felipe Tsubota      - 2017.1904.056-7
 #               Wesley Souza Campagna       - 2014.1907.010-0
-#               Alberto                     - 201
-#               Gabriel                     - 201
+#               Alberto Benites             - 2016.1906.026-4
+#               Gabriel Chiba Miyahira      - 2017.1904.005-2
 # ------------------------------------------------------------------------------------------
 
 class alocacaoArtigo:
@@ -151,6 +151,6 @@ class alocacaoArtigo:
         #plt.show()
         plt.close()
 
-aloca = alocacaoArtigo(crossoverrate=0.7, mutationrate=0.02, maxgen=100)
-# aloca = alocacaoArtigo(crossoverrate=0.7, mutationrate=0.02, maxgen=100)
-# aloca = alocacaoArtigo(crossoverrate=0.7, mutationrate=0.02, maxgen=100)
+#aloca = alocacaoArtigo(crossoverrate=0.7, mutationrate=0.02, maxgen=100)
+#aloca = alocacaoArtigo(crossoverrate=0.3, mutationrate=0.08, maxgen=300)
+aloca = alocacaoArtigo(crossoverrate=0.2, mutationrate=0.05, maxgen=50)

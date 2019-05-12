@@ -1,3 +1,12 @@
+# ------------------------------------------------------------------------------------------
+#    Alunos:    William Felipe Tsubota      - 2017.1904.056-7
+#               Wesley Souza Campagna       - 2014.1907.010-0
+#               Alberto                     - 201
+#               Gabriel                     - 201
+# ------------------------------------------------------------------------------------------
+
+# Arquivo não utilizado!!!!!!
+
 class Objective:
 	def generateObjective(self, matriz):
 		linhasRevisor = len(matriz)
