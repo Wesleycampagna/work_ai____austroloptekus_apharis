@@ -16,6 +16,10 @@ class Genetic:
         self.__generate = gen.generate()         
         self.__soma_mean_atual = 0          # usado para verificar convergencia
         self.__soma_med_anterior = 0        # usado para verificar convergencia
+        self.__melhor_atual = 0
+        self.__melhor_anterior = 0
+        self.__individuo_atual = []
+        self.__individuo_anterior = []
         self.__soma_gen = 0                 # se totalizar 10 geracoes, entao verifica se ha convergencia
         self.__best_fitness = 0
         
@@ -150,6 +154,7 @@ class Genetic:
         new_population = self.__generate.to_int_matriz(population, tetolog)
         fitness = []
         best_individual_by_generation = 0
+        array_best_individual_by_generation = []
 
         for individual in new_population:
             sum_individual = 0
@@ -163,8 +168,6 @@ class Genetic:
             # avalia em relação a disponibilidade e valores, podendo dar penalidades
             sum_individual = self.evaluate_fitness(individual, sum_individual)      # penalidades para disponibilidades incoerentes
 
-            # avalia se o algoritmo parará a execução dada a atual geração
-            self.evaluate_stop(sum_individual)                      # analise de convergencia
 
             print('1: ', k, ' 2: ', sum_individual)                 # apagar versão final %%%
 
@@ -177,18 +180,51 @@ class Genetic:
 
             if sum_individual > best_individual_by_generation:
                 best_individual_by_generation = sum_individual
+                array_best_individual_by_generation = individual
 
                 if self.__best_fitness < sum_individual:
                     self.__best_fitness = sum_individual
                     self.best_individual = individual
                     self.best_individual.append(sum_individual)
+
+            # avalia se o algoritmo parará a execução dada a atual geração
+            self.evaluate_stop(sum_individual)                      # analise de convergencia
+
             
         self.best_individual_by_generation.append(best_individual_by_generation)
+        if(best_individual_by_generation > self.__melhor_atual):
+            self.__melhor_atual = best_individual_by_generation
+            self.__individuo_atual = array_best_individual_by_generation
+            #self.__individuo_atual.append(self.__melhor_atual)        # duvida >> pq se deixar essa linha 
 
         return fitness
 
 
     def evaluate_stop(self, sum_individual): # condição de parada do if la encima
+        if self.__heuristic_sum == sum_individual:
+            self.__isEnd = True
+
+        elif self.__soma_gen == Genetic.amount_gen_to_verify:
+            
+            # a media da geracao atual pode ser menor q a media da geracao anterior? sim. Aplicar heuristica
+            if (abs(self.__melhor_atual - self.__melhor_anterior) < self.__converg 
+                and self.__melhor_atual > (self.__heuristic_sum - self.__converg) 
+                    and self.__melhor_anterior != 0): 
+                #if self.__melhor_atual > self.__melhor_anterior:
+                    #self.best_individual = self.__melhor_atual
+                #else:
+                    #self.best_individual = self.__melhor_anterior
+                self.__isEnd = True
+
+            #print(mediaAtual, mediaAnterior, ' toma aew')              # apagar versão final %%%
+            self.__melhor_anterior = self.__melhor_atual
+            self.__melhor_atual = 0
+            self.__individuo_anterior = self.__individuo_atual
+            self.__individuo_atual = []
+            self.__soma_gen = 0
+
+
+    def evaluate_stop2(self, sum_individual): # condição de parada do if la encima
         if self.__heuristic_sum == sum_individual:
             self.__isEnd = True
 
