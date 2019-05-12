@@ -264,7 +264,7 @@ class Genetic:
                 sum_individual = sum_individual - punicao
             elif disponibilidade[individual[i]] == -2:
                 sum_individual = sum_individual - (punicao * 2)
-            elif disponibilidade[individual[i]] == -3:
+            elif disponibilidade[individual[i]] <= -3:
                 sum_individual = sum_individual - (punicao * 4)
             
         #print('disp: ', disponibilidade)                                # apagar versão final %%%
