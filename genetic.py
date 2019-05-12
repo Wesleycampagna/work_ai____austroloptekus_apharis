@@ -21,18 +21,16 @@ class Genetic:
         # variaveis para controle interno
         self.__isEnd = False
         self.__generate = gen.generate()         
-        self.__soma_mean_atual = 0          # usado para verificar convergencia
-        self.__soma_med_anterior = 0        # usado para verificar convergencia
-        self.__melhor_atual = 0
-        self.__melhor_anterior = 0
-        self.__individuo_atual = []
-        self.__individuo_anterior = []
+        self.__melhor_atual = 0             # usado para verificar convergencia
+        self.__melhor_anterior = 0          # usado para verificar convergencia
+        self.__individuo_atual = []         # usado para verificar convergencia
+        self.__individuo_anterior = []      # usado para verificar convergencia
         self.__soma_gen = 0                 # se totalizar 10 geracoes, entao verifica se ha convergencia
         self.__best_fitness = 0
         
         # função heuristica e valores para para função de avaliação
         self.__heuristic_sum = self.__generate.generate_heuristic(matriz)    
-        self.__heuristic_bit = self.__generate.generate_objective(matriz)   
+        self.__heuristic_bit = self.__generate.maximos_determinado_por_busca_gulosa(matriz)   
         self.__converg = (self._Genetic__heuristic_sum * 0.20)
         self.__penalty = self._Genetic__heuristic_sum / 5.1
 
@@ -107,10 +105,7 @@ class Genetic:
 
         self.mean.append(mean)
         
-        self.__soma_mean_atual += mean   # usado para verificar convergencia
-        #print(' to rodando aqui rapaz')                                        # apagar versão final %%%
         self.__soma_gen += 1   # usado para verificar convergencia
-        #print(self.__soma_gen)                                                 # apagar versão final %%%
 
         # se algum individuo alcancar o fitness ideal, cancelar recursao
         if not self.__isEnd and generation < self.__maxgen:            
@@ -152,7 +147,7 @@ class Genetic:
 
         value = ("\n\t\t## FIM POR OBJETIVO", "\n\t\t## FIM POR MAXGEN")[generation >= self.__maxgen]
         
-        print(generation)
+        print(generation, 'geracoes')
         #print(value)
 
 
@@ -171,13 +166,11 @@ class Genetic:
                 sum_individual += self.__mat[revisor][i]
                 i += 1
 
-            k = sum_individual                                      # apagar versão final %%%
 
             # avalia em relação a disponibilidade e valores, podendo dar penalidades
             sum_individual = self.evaluate_fitness(individual, sum_individual)      # penalidades para disponibilidades incoerentes
 
 
-            #print('1: ', k, ' 2: ', sum_individual)                 # apagar versão final %%%
 
             # não ter o risco de um fitness zerado ou negativo, causa problemas
             if sum_individual <= 0:
@@ -226,33 +219,11 @@ class Genetic:
                     #self.best_individual = self.__melhor_anterior
                 self.__isEnd = True
 
-            #print(mediaAtual, mediaAnterior, ' toma aew')              # apagar versão final %%%
             self.__melhor_anterior = self.__melhor_atual
             self.__melhor_atual = 0
             self.__individuo_anterior = self.__individuo_atual
             self.__individuo_atual = []
             self.__soma_gen = 0
-
-
-    def evaluate_stop2(self, sum_individual): # condição de parada do if la encima
-        if self.__heuristic_sum == sum_individual:
-            self.__isEnd = True
-
-        elif self.__soma_gen == Genetic.amount_gen_to_verify:
-            mediaAtual = self.__soma_mean_atual / Genetic.amount_gen_to_verify
-            mediaAnterior = self.__soma_med_anterior / Genetic.amount_gen_to_verify
-
-            # a media da geracao atual pode ser menor q a media da geracao anterior? sim. Aplicar heuristica
-            if (abs(mediaAtual - mediaAnterior) < self.__converg 
-                and mediaAtual > (self.__heuristic_sum - self.__converg) 
-                    and self.__soma_med_anterior != 0): 
-                self.__isEnd = True
-
-            #print(mediaAtual, mediaAnterior, ' toma aew')              # apagar versão final %%%
-            self.__soma_med_anterior = self.__soma_mean_atual
-            self.__soma_mean_atual = 0
-            self.__soma_gen = 0
-
         
     def evaluate_fitness(self, individual, sum_individual):
 
@@ -260,7 +231,6 @@ class Genetic:
         for item in self.__obj['disp']: disponibilidade.append(item[1])
         punicao = self.__penalty # definir punicao
 
-        #print(individual)                                               # apagar versão final %%%
         
         for i in range(len(individual)):
             disponibilidade[individual[i]] = disponibilidade[individual[i]] - 1
@@ -274,7 +244,6 @@ class Genetic:
             elif disponibilidade[individual[i]] <= -3:
                 sum_individual = sum_individual - (punicao * 4)
             
-        #print('disp: ', disponibilidade)                                # apagar versão final %%%
 
         return sum_individual
 
@@ -384,40 +353,3 @@ class Genetic:
             self.best_generation['value'] = mean
 
         return mean
-
-
-# +======================================================================================================+
-#                   antigos para bits
-# +======================================================================================================+
-
-    def calculate_fitness2(self, population):  # *** nao sera usado ***
-
-        fitness = []
-        best_individual_by_generation = 0
-        
-        for line in population:
-            quant_right_bits = 0
-            for iterator in range(len(line)):
-                if line[iterator] == self.__heuristic_bit[iterator]:
-                    quant_right_bits += 1
-            
-            self.evaluate_fitness_(quant_right_bits)
-
-            # não ter o risco de um fitness onde todos os bits estejam errado
-            if quant_right_bits == 0:
-                quant_right_bits = 1
-            
-            # verifica se ainda é o melhor individuo da população 
-            if quant_right_bits > best_individual_by_generation:
-                best_individual_by_generation = quant_right_bits
-
-            fitness.append(quant_right_bits)
-        
-        self.best_individual_by_generation.append(best_individual_by_generation)
-            
-        return fitness   # *** modify final ***
-    
-
-    def evaluate_fitness_(self, quant_right_bits): 
-        if self.__obj['elements'] == quant_right_bits:
-            self.__isEnd = True

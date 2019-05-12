@@ -46,8 +46,7 @@ class alocacaoArtigo:
             if genetic.best_generation['index'] < self.best_gen:
                 self.best_gen = genetic.best_generation['index']
 
-            print (genetic.best_individual_by_generation)               # apagar versão final %%% pode-se usar
-            print('best i: ', genetic.best_individual)                  # apagar versão final %%% pode-se usar
+            print('best individual: ', genetic.best_individual)
 
             self.best_individual_by_generation_in_ten_repeat.append(genetic.best_individual_by_generation)
             self.mean_individuals_generation_in_ten_repeat.append(genetic.mean)
@@ -152,5 +151,5 @@ class alocacaoArtigo:
         plt.close()
 
 #aloca = alocacaoArtigo(crossoverrate=0.7, mutationrate=0.02, maxgen=100)
-#aloca = alocacaoArtigo(crossoverrate=0.3, mutationrate=0.08, maxgen=300)
-aloca = alocacaoArtigo(crossoverrate=0.2, mutationrate=0.05, maxgen=50)
+aloca = alocacaoArtigo(crossoverrate=0.3, mutationrate=0.08, maxgen=300)
+#aloca = alocacaoArtigo(crossoverrate=0.2, mutationrate=0.05, maxgen=50)
