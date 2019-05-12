@@ -152,3 +152,5 @@ class alocacaoArtigo:
         plt.close()
 
 aloca = alocacaoArtigo(crossoverrate=0.7, mutationrate=0.02, maxgen=100)
+# aloca = alocacaoArtigo(crossoverrate=0.7, mutationrate=0.02, maxgen=100)
+# aloca = alocacaoArtigo(crossoverrate=0.7, mutationrate=0.02, maxgen=100)
