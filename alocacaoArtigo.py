@@ -26,6 +26,7 @@ class alocacaoArtigo:
         reader = read.reader()
         self.matriz_p = reader.createMatrix(inputpath)
         
+        # calculo do tempo para o método que desencadeia o algoritmo e seus resultados
         inicio = time.time()
         self.run(crossoverrate, mutationrate, maxgen)
         fim = time.time()
@@ -41,6 +42,9 @@ class alocacaoArtigo:
            
             if genetic.best_generation['index'] < self.best_gen:
                 self.best_gen = genetic.best_generation['index']
+
+            print (genetic.best_individual_by_generation)               # apagar versão final %%% pode-se usar
+            print('best i: ', genetic.best_individual)                  # apagar versão final %%% pode-se usar
 
             self.best_individual_by_generation_in_ten_repeat.append(genetic.best_individual_by_generation)
             self.mean_individuals_generation_in_ten_repeat.append(genetic.mean)
@@ -66,12 +70,12 @@ class alocacaoArtigo:
 
 
     def uniform(self, matriz, maxgen):
-        # [[ 00, 01, 02]        
-        # [ 10, 11, 12]        
-        # ....
-        # [n1, n2, n3]
-        # ]  
-        # a idéia é selecionar [x][n de interesse]
+        # [[ n0[k0=3,2],  n0[k1=3,4],  n0[k2=2,7]]        
+        #  [ n1[k0=2,5],  n1[k1=5.0],  n1[k2=2,5]]        
+        #             ....
+        #  [ nn[k0=3.0],  nn[k1=4.0],  nn[k2=1.6]] ]  
+
+        # a idéia é selecionar um n fixo e fazer média dos k. ex = ((3.2 + 2.5 + 3.0) / 3) => 2.9
 
         mean = []
 
@@ -131,6 +135,3 @@ class alocacaoArtigo:
         plt.close()
 
 aloca = alocacaoArtigo(crossoverrate=0.7, mutationrate=0.02, maxgen=100)
-
-# 16 -> [2, 1, 3, 3, 0]
-#        3, 2, 4, 4, 1

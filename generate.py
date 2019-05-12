@@ -44,7 +44,7 @@ class generate:
         tetolog = self.define_log_element(revisores)
         lista = []
 
-        string_binaria = self.__get_bin(rand.random_int(0, (revisores) - 1), tetolog)
+        string_binaria = self.__get_bin(rand.random_int(0, (revisores)), tetolog)
         for i in string_binaria:
             lista.append(int(i))
         return lista

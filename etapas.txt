@@ -1,3 +1,5 @@
+projeto
+-----------------------------------------------------------------------------------------------------------
 ( x ) determinar heuristica  
 ( x ) projetar heuristica
 ( x ) desenvolver heuristica
@@ -6,6 +8,7 @@
 ( x ) criar calculo de fitness
 ( x ) punir revisores que ultrapassarem o limite, 
 (x+-) calcular convergencia para saber se para a gente tem um vetor do maior fitness (soma das aptidoes)
+( x ) adaptar função de avaliação para heuristica adotada
 ( x ) controle sobre inconsistências na disponibildade (punir revisores que ultrapassa o limite)
 ( x ) criar classe randomica
 ( x ) realizar seleção
@@ -24,12 +27,18 @@
 ( x ) Também deve ser mensurado o tempo de execuçao e o numero de iteracoes
 levado ate a convergencia
 ( x ) refatoração para aceitar parametros de entrada
-(   ) Fazer entrada por parametro para 3 ordens diferentes de parametros (relatório)
 ( x ) mudar crossover pra quebra acontecer no devido local
+(   ) colocar nome dos integrantes (os 4) em todos os arquivos de código
+
+relatorio
+-----------------------------------------------------------------------------------------------------------
+(   ) Fazer entrada por parametro para 3 ordens diferentes de parametros (relatório)
+(   ) Falar bonus de grafico criados 
 
 # - anulado
 x - feito
 +- - +-
+
 
 obs: arquivo de entrada inputpath = ''      
 
@@ -44,7 +53,8 @@ obs: arquivo de entrada inputpath = ''
 
 5- prova matematica
 
-6- aplicar algoritmo genetico direto? - Fitness deve ser a única representação de melhor estado? Desse modo a condição de parada será maxgen com as 10 iterações?
+6- aplicar algoritmo genetico direto? - Fitness deve ser a única representação de melhor estado? 
+    Desse modo a condição de parada será maxgen com as 10 iterações?
 
 7- várias entradas
 
@@ -54,7 +64,8 @@ obs: arquivo de entrada inputpath = ''
 
 2- se aproximar do maximo possivel
 
-3- condição de parada -> agrupar 10 gerações e fazer as próximas 10 gerações e comaparar se convergiu muito, se sim para, senão continua (em 5 artigos com 4 revisores -> 1/x da multiplicação deles)
+3- condição de parada -> agrupar 10 gerações e fazer as próximas 10 gerações e comaparar se convergiu muito, 
+se sim para, senão continua (em 5 artigos com 4 revisores -> 1/x da multiplicação deles)
 
 4- representação matematica -> somatoria dos melhores revisores para cada artigo
 
