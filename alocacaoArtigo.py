@@ -42,10 +42,10 @@ class alocacaoArtigo:
             if genetic.best_generation['index'] < self.best_gen:
                 self.best_gen = genetic.best_generation['index']
 
-            self.best_individual_by_generation_in_ten_repeat.append(genetic.best_individual)
+            self.best_individual_by_generation_in_ten_repeat.append(genetic.best_individual_by_generation)
             self.mean_individuals_generation_in_ten_repeat.append(genetic.mean)
 
-            self.plot_generation(i, genetic.mean, genetic.best_individual)
+            self.plot_generation(i, genetic.mean, genetic.best_individual_by_generation)
 
             print('\n----------------------------------------\n\t\trepeat: ', i + 1, '\n----------------------------------------\n\n')
 
@@ -130,7 +130,7 @@ class alocacaoArtigo:
         #plt.show()
         plt.close()
 
+aloca = alocacaoArtigo(crossoverrate=0.7, mutationrate=0.02, maxgen=100)
 
-
-
-aloca = alocacaoArtigo(crossoverrate=0.7, mutationrate=0.03, maxgen=100)
+# 16 -> [2, 1, 3, 3, 0]
+#        3, 2, 4, 4, 1

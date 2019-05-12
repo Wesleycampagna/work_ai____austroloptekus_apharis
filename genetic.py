@@ -27,7 +27,7 @@ class Genetic:
         self.mutationrate = mutationrate
         self.maxgen = maxgen
         self.mat = matriz
-        self.penalty = self._Genetic__heuristic_sum / 5
+        self.penalty = self._Genetic__heuristic_sum / 25
         
         self.__obj = {
             'number_of_individuals': Genetic.population,
@@ -46,7 +46,8 @@ class Genetic:
 
         self.mean = []
         self.generations = []
-        self.best_individual = []
+        self.best_individual_by_generation = []             # pelo fitness assim: [8.3, 8.7, 11, ... 16.0]
+        self.array_best_individual = []                     # deve salvar algo assim: [3, 2, 1, 4, 4]
 
         self.best_generation = {
             'index': 0,
@@ -142,7 +143,7 @@ class Genetic:
         tetolog = self.__obj['tetolog']
         new_population = self.generate.to_int_matriz(population, tetolog)
         fitness = []
-        best_individual = 0
+        best_individual_by_generation = 0
 
         for individual in new_population:
             sum_individual = 0
@@ -167,10 +168,10 @@ class Genetic:
             # append fitness do individuo a lista de fitness já com penalidade
             fitness.append(sum_individual)
 
-            if sum_individual > best_individual:
-                best_individual = sum_individual
+            if sum_individual > best_individual_by_generation:
+                best_individual_by_generation = sum_individual
             
-        self.best_individual.append(best_individual)
+        self.best_individual_by_generation.append(best_individual_by_generation)
 
         return fitness
 
@@ -205,7 +206,6 @@ class Genetic:
             disponibilidade[individual[i]][1] = disponibilidade[individual[i]][1] - 1
             if(disponibilidade[individual[i]][1] < 0):
                 sum_individual = sum_individual - punicao
-                break
                 
         return sum_individual
 
@@ -322,7 +322,7 @@ class Genetic:
     def calculate_fitness2(self, population):  # *** nao sera usado ***
 
         fitness = []
-        best_individual = 0
+        best_individual_by_generation = 0
         
         for line in population:
             quant_right_bits = 0
@@ -337,12 +337,12 @@ class Genetic:
                 quant_right_bits = 1
             
             # verifica se ainda é o melhor individuo da população 
-            if quant_right_bits > best_individual:
-                best_individual = quant_right_bits
+            if quant_right_bits > best_individual_by_generation:
+                best_individual_by_generation = quant_right_bits
 
             fitness.append(quant_right_bits)
         
-        self.best_individual.append(best_individual)
+        self.best_individual_by_generation.append(best_individual_by_generation)
             
         return fitness   # *** modify final ***
     
