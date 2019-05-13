@@ -13,7 +13,7 @@ import writer as write
 #               Gabriel Chiba Miyahira      - 2017.1904.005-2
 # ------------------------------------------------------------------------------------------
 
-class alocacaoArtigo:
+class alocacaoArtigos:
  
     def __init__(self, crossoverrate=0.5, mutationrate=0.01, maxgen=100, inputpath='inputpath'):
         self.outputpath = 'saida-genetico.txt'
@@ -150,6 +150,6 @@ class alocacaoArtigo:
         #plt.show()
         plt.close()
 
-aloca = alocacaoArtigo(crossoverrate=0.7, mutationrate=0.02, maxgen=100)
-#aloca = alocacaoArtigo(crossoverrate=0.3, mutationrate=0.08, maxgen=300)
-#aloca = alocacaoArtigo(crossoverrate=0.2, mutationrate=0.05, maxgen=50)
+alocacaoArtigos(crossoverrate=0.7, mutationrate=0.02, maxgen=100)
+#alocacaoArtigo(crossoverrate=0.3, mutationrate=0.08, maxgen=300)
+#alocacaoArtigo(crossoverrate=0.2, mutationrate=0.05, maxgen=50)
