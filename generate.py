@@ -1,5 +1,4 @@
 import randomize as rand
-import MaximumPossible as maximum
 import HeuristicConstructor as heu_construct
 import math 
 
@@ -11,11 +10,6 @@ import math
 # ------------------------------------------------------------------------------------------
 
 class generate:
-
-    def maximos_determinado_por_busca_gulosa(self, matriz): # essa busca gulosa serve somente para fazer gerar uma lista que futuramente fara o tetolog na funcao get_great_revisor, pois em determinado momento determinamos a população em binario
-        self.list_revisor_article = maximum.Maximum().generateMax(matriz)
-        return self.to_binary(self.list_revisor_article)
-
 
     def generate_heuristic(self, matriz):
         summ = 0
