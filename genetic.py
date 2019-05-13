@@ -30,7 +30,7 @@ class Genetic:
         
         # função heuristica e valores para para função de avaliação
         self.__heuristic_sum = self.__generate.generate_heuristic(matriz)    
-        self.__heuristic_bit = self.__generate.maximos_determinado_por_busca_gulosa(matriz)   
+        # self.__heuristic_bit = self.__generate.maximos_determinado_por_busca_gulosa(matriz)   
         self.__converg = (self._Genetic__heuristic_sum * 0.20)
         self.__penalty = self._Genetic__heuristic_sum / 5.1
 
@@ -46,10 +46,10 @@ class Genetic:
             # quantidade de revisores
             'lines': len(matriz) - 1,
             # como se está usando conversão binaria e do contrario, tetolog é responsavel pelas casas binarias
-            'tetolog': self.__generate.define_log_element(self.__generate.get_great_revisor()),
+            'tetolog': self.__generate.define_log_element(len(matriz) - 1),
             # -1 para tirar a disposição de correção, x tetoLog (representação binária)
             'elements': (len(matriz[0]) -1) * 
-                self.__generate.define_log_element(self.__generate.get_great_revisor()), 
+                self.__generate.define_log_element(len(matriz) - 1), 
             # @disp: array das disponibilidades
             'disp': self.__generate.generate_disp(matriz),
             # collumn do array de entrada - a disponibilidade
