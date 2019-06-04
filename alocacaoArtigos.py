@@ -150,6 +150,6 @@ class alocacaoArtigos:
         #plt.show()
         plt.close()
 
-alocacaoArtigos(crossoverrate=0.7, mutationrate=0.02, maxgen=100)
+#alocacaoArtigos(crossoverrate=0.7, mutationrate=0.02, maxgen=100)
 #alocacaoArtigo(crossoverrate=0.3, mutationrate=0.08, maxgen=300)
 #alocacaoArtigo(crossoverrate=0.2, mutationrate=0.05, maxgen=50)
