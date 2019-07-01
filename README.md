@@ -1,3 +1,5 @@
+Obs: Possui alguns erros gramaticais/(de sentença) no texto abaixo. Ainda não houve a a oportunidade de arruma-los.
+
 ## Algoritmo genético para alocação de revisores de artigos
 
 #### Trabalho realizado por:
