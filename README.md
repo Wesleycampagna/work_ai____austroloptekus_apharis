@@ -7,7 +7,7 @@ Obs: Possui alguns erros gramaticais/(de sentença) no texto abaixo. Ainda não 
 - William Felipe Tsubota 
 - Wesley Souza Campagna 
 - Alberto Benites 
-- Gabriel Chiba Miyahira 
+- Gabriel C. M.
 
 ### Considerações iniciais
 
